@@ -28,7 +28,7 @@ namespace Procoder
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<ProcederContext>(options =>
-                options.UseMySQL("server=localhost;port=3306;database=procoder;username=root;password=Password12");
+                options.UseMySQL("server=localhost;port=3306;database=procoder;username=root;password=Password12"));
 
             services.AddSpaStaticFiles(configuration =>
             {
