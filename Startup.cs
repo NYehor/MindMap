@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching;
 
 
 namespace Procoder
@@ -24,6 +26,9 @@ namespace Procoder
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<ProcederContext>(options =>
+                options.UseMySQL("server=localhost;port=3306;database=procoder;username=root;password=Password12");
 
             services.AddSpaStaticFiles(configuration =>
             {
