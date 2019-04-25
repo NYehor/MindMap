@@ -32,7 +32,7 @@ namespace Procoder
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "client/build";
+                configuration.RootPath = "frontend/build";
             });
         }
 
@@ -62,11 +62,12 @@ namespace Procoder
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "client";
+                // spa.Options.SourcePath = "frontend";
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    // spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
                 }
             });
         }
