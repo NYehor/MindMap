@@ -8,13 +8,47 @@ export default class Tree extends Component {
         super();
         this.state = {
             size: {
-                width: 700,
+                width: 1000,
                 height: 500,
-            },
+            }
         }    
 
         this.leftBranch = [];
         this.rightBranch = [];
+        this.selectedNode = [];
+        this.isEditableTree = false;
+
+
+        this.bindDocumentHandlers();
+        this.count = 0;
+    }
+
+    bindDocumentHandlers() {
+
+        document.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            switch (e.which) {
+                case 13:
+                    
+                    break;
+                case 9:
+                const prevNode = this.selectedNode[0];
+                console.log(prevNode);
+                const parent = prevNode.parent === null ? this.props.treeName : prevNode.data.node.name;
+                const node = {
+                    name: 'werewrewrwer' + ++this.count
+                };
+                this.props.addNode(parent, node)
+                    console.log();
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        // remove all document event handlers
 
     }
 
@@ -29,16 +63,17 @@ export default class Tree extends Component {
                             .id(data => data.node.name)
                             .parentId(data => data.parent.name);
 
-        // const branchEl = this.treeEL.append('g')
-        //                     .attr('class', `branch-${direction}`)
-        //                     .attr('transform', `translate(${width / 2},0)`);
-        const branchEl = d3.select('#tree-canvas').append('g')
-                            .attr('class', `branch-${direction}`)
-                            .attr('transform', `translate(${size.width / 2},0)`);
-
-
         const tree = d3.tree()
-                       .size([size.height, SWITCH_INDEX * (size.width - 50) / 2]);
+                        .size([size.height, 
+                               SWITCH_INDEX * (size.width - 50) / 2]);
+     
+
+        // const branchEl = d3.select(this.treeEL).append('g')
+        //                     .attr('class', `branch-${direction}`)
+        //                     .attr('transform', `translate(${size.width / 2},0)`);
+
+        const branchEl = d3.select(`.branch-${direction}`)
+                            .attr('transform', `translate(${size.width / 2},0)`);
 
         const stratified = stratify(data);
         const treeData = tree(stratified);
@@ -53,59 +88,79 @@ export default class Tree extends Component {
         console.log(nodes_data);
 
 
-        // get edges selection
-        const edges = branchEl
-                        .selectAll('.edge')
-                        .data(edges_data);
+        // get edges selection 
+        {
+            const edges = branchEl.selectAll('.edge').data(edges_data);
 
-        edges.enter()
+            edges.exit().remove();
+
+            edges.enter()
                 .append('path')
                 .attr('class', 'edge')
                 .attr('fill', 'none')
                 .attr('stroke', '#aaa')
                 .attr('stroke-width', 2)
-                .attr('d', d3.linkHorizontal().x(d => d.y).y(d => d.x));
+                .merge(edges)
+                .attr('d', d3.linkHorizontal().x(d => d.y).y(d => d.x))
+                .lower();
+        }
+        
         
         // get nodes selections
-        const nodes = branchEl
+    
+        const node = branchEl
                         .selectAll('.node_group')
-                        .data(nodes_data);
+                        .data(nodes_data, (d) => d.data.node.name);
 
-        const node_group = nodes
+        console.log(node);        
+
+                        node    
                             .enter()
                             .append('g')
                             .attr('class', 'node_group')
-                            .attr('transform', d => `translate(${d.y}, ${d.x})`);
+                            .merge(node)
+                            .attr('transform', d => `translate(${d.y}, ${d.x})`)
 
-        const node_wrapper = node_group.append('foreignObject')
-                                        .attr('class', 'node')
-                                        .style('height', NODE.height)
-                                        .style('width', d => NODE.width(d))
-                                        .style('transform', d => {
-                                            const x = NODE.width(d) / 2;
-                                            const y = NODE.height / 2;
-                                            return `translate(${-x}px, ${-y}px)`
-                                        });
+                                
+                .append('foreignObject')
+                .attr('class', 'node')
+                .style('height', NODE.height)
+                .style('width', d => NODE.width(d))
+                .style('transform', d => {
+                    const x = NODE.width(d) / 2;
+                    const y = NODE.height / 2;
+                    return `translate(${-x}px, ${-y}px)`
+                })
+                .classed('node--selected', (d) => {
+                    if (this.selectedNode.length) {
+                        const [ , node] = this.selectedNode;
+                        d3.select(node).classed('node--selected', true);
+                    }
+                })
+                .on('click', (d, i, nodes) => {
+                    console.log(d);
+                    d3.select(nodes[i]).classed('node--selected', true);
+                    this.selectedNode = [d, nodes[i]];
+                })
 
-        // mdInit();
-        // console.log(source);
-        // const newSource = source.replace(/<br>/g, '\n');
-            
-        node_wrapper.append('xhtml:div')
+                .append('xhtml:div')
                     .attr('class', 'editable')
                     .html(d => d.data.node.name);
                     // .html(mdHtml.render(newSource));
 
 
+        // mdInit();
+        // console.log(source);
+        // const newSource = source.replace(/<br>/g, '\n');
+
+        node.exit().remove();   
+
     }
 
     splitTree() {
         const data = this.props.data;
-        // remove temporaty root node as supposed its a first node
-        // const nodes = data.slice(1);
-        // or
-        const nodes = data.filter(({node}) => node.name !== this.props.treeName);
         const root = data.filter(({node}) => node.name === this.props.treeName);
+        const nodes = data.filter(({node}) => node.name !== this.props.treeName);
 
         let firstLevelNodes = [],
             nextLevelNodes = [];
@@ -145,8 +200,8 @@ export default class Tree extends Component {
 
     componentDidMount() {
         console.log('%c TREE: componentDidMount ', 'color: green; background-color: LightGreen; font-weight: bold')
-        // this.props.addNode(this.props.treeName);
-        this.updateTree();
+        this.props.addNode(this.props.treeName);
+        // this.updateTree();
     }
 
     componentDidUpdate() {
@@ -171,6 +226,16 @@ export default class Tree extends Component {
                            style={{
                                transform: `translate(100px, 100px)`
                            }}>
+
+                           <g className='branch-left'
+                              style={{
+                                  transform: `translate(${size.width / 2},0)`
+                              }}></g>
+
+                           <g className='branch-right'
+                              style={{
+                                  transform: `translate(${size.width / 2},0)`
+                              }}></g>
 
                         </g>
                 </svg>

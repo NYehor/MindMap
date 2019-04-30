@@ -1,9 +1,9 @@
 import * as types from '../actionTypes';
 
 
-export function addNode(parent, node = null) {
+export function addNode(parent, node) {
 
-    let newNode = typeof parent === 'string' ?
+    let newNode = (node === undefined) ?
                     {
                         node: {
                             name: parent
@@ -13,7 +13,7 @@ export function addNode(parent, node = null) {
                     {
                         node,
                         parent: {
-                            name: parent.name
+                            name: parent
                         }
                     };
 
