@@ -9,6 +9,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching;
+using Procoder.Models;
+using Newtonsoft.Json;
 
 
 namespace Procoder
@@ -25,11 +27,12 @@ namespace Procoder
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().AddJsonOptions(opts => opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<ProcederContext>(options =>
-                options.UseMySQL("server=localhost;port=3306;database=procoder;username=root;password=Password12"));
-
+                options.UseMySQL("server=localhost;port=3306;database=procoder;username=root;password=1111"));
+            services.AddTransient<IRepository, Repository>();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "client/build";

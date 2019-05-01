@@ -11,8 +11,6 @@ namespace Procoder
 {
     public class ProcederContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-
         public ProcederContext(DbContextOptions options) : base(options)
         {
         }
@@ -21,5 +19,7 @@ namespace Procoder
         {
 
         }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Map> UserMapsData { get; set; }
     }
 }

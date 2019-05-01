@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Procoder.Models;
 
 namespace Procoder.Controllers
 {
@@ -10,36 +11,96 @@ namespace Procoder.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private IRepository repository;
+        public ValuesController(IRepository rep) => repository = rep;
+
+        //GET/users
+        //get list of all users
+        //[HttpGet]
+        public JsonResult GetUsers()
         {
-            return new string[] { "value1", "value2" };
+            return repository.GetAllUser();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        //GET/users/ID
+        //get concrete user
+        //[HttpGet("{id:int}")]
+        public JsonResult GetUser(int userId)
         {
-            return "value";
+            return repository.GetUser(userId);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        //GET/users/ID/maps
+        //get all maps from concrete user
+        //[Route("api/users/{id}/maps")]
+        //[HttpGet]
+        //public ActionResult<IEnumerable<Map>> GetMapsList(int userId)
+        //{
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //}
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+
+        //GET/users/ID/maps/ID
+        //get concrete map from concrete user
+        //[Route("api/users/id/maps/{id}")]
+        //[HttpGet]
+        //public ActionResult<Map> GetMap(int mapId)
+        //{
+
+        //}
+
+        //POST/users
+        //add new user
+        //[HttpPost]
+        //public bool AddUser([FromBody] User value)
+        //{
+
+        //}
+
+        //POST/users/ID/maps/ID ??????
+        //add new map from concrete user
+        //[Route("api/users/{id}/maps/id")]
+        //[HttpPost]
+        //public bool AddUserMap(int userId, [FromBody] string value)
+        //{
+
+        //}
+
+        //PUT/users/ID
+        //edit concrete user
+        //[Route("api/users/{id:int}")]
+        //[HttpPut]
+        //public bool EditUser(int id, [FromBody] User value)
+        //{
+
+        //}
+
+        //PUT/users/maps/ID
+        //edit map from concrete user
+        //[Route("api/users/id/maps/{id:int}")]
+        //[HttpPut]
+        //public bool EditUserMap(int userId, [FromBody] Map value)
+        //{
+
+        //}
+
+        //DELETE/users/ID
+        //delete concrete user
+        //[Route("api/users/{id:int}")]
+        //[HttpDelete]
+        //public bool DeleteUser(int userId)
+        //{
+
+        //}
+
+        //DELETE/users/ID/maps/ID
+        //delete concrete map from concrete user 
+        //[Route("api/users/id/maps/{id:int}")]
+        //[HttpDelete]
+        //public bool DeleteMap(int mapId)
+        //{
+
+        //}
+
     }
 }
