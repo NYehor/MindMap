@@ -32,7 +32,7 @@ namespace Procoder
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "frontend/build";
+                configuration.RootPath = "client/build";
             });
         }
 
