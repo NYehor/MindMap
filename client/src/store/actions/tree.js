@@ -22,13 +22,3 @@ export function addNode(parent, node) {
         payload: newNode
     }
 };
-
-// make recursive when delete intermediate node
-export function removeNode(parent, node) {
-
-
-    return {
-        type: types.REMOVE_NODE,
-        payload: node
-    }
-}

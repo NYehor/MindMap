@@ -62,12 +62,12 @@ namespace Procoder
 
             app.UseSpa(spa =>
             {
-                // spa.Options.SourcePath = "frontend";
 
                 if (env.IsDevelopment())
                 {
-                    // spa.UseReactDevelopmentServer(npmScript: "start");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                     spa.Options.SourcePath = "client";
+                     spa.UseReactDevelopmentServer(npmScript: "start");
+                    // spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
                 }
             });
         }

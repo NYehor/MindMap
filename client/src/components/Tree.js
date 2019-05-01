@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
 import { TREE, NODE } from '../utils/treeDimensions';
-import keyCodes from '../utils/keyCodes';
 
 export default class Tree extends Component {
 
@@ -28,28 +27,20 @@ export default class Tree extends Component {
 
         document.addEventListener('keydown', (e) => {
             e.preventDefault();
-            console.log(e.which);
-
             switch (e.which) {
-
-                case keyCodes.ENTER:
+                case 13:
                     
                     break;
-
-                case keyCodes.TAB:
-                    const prevNode = this.selectedNode[0];
-                    console.log(prevNode);
-                    const parent = prevNode.parent === null ? this.props.treeName : prevNode.data.node.name;
-                    const node = {
-                        name: 'werewrewrwer' + ++this.count
-                    };
-                    this.props.addNode(parent, node)
+                case 9:
+                const prevNode = this.selectedNode[0];
+                console.log(prevNode);
+                const parent = prevNode.parent === null ? this.props.treeName : prevNode.data.node.name;
+                const node = {
+                    name: 'werewrewrwer' + ++this.count
+                };
+                this.props.addNode(parent, node)
+                    console.log();
                     break;
-
-                case keyCodes.DELETE:
-                    console.log(this.selectedNode)
-                    break;
-
                 default:
                     break;
             }

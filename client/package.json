@@ -1,9 +1,11 @@
 {
-  "name": "frontend",
+  "name": "client",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.dev.js",
   "scripts": {
+    "start": "rimraf ./build && react-scripts start",
+    "build": "react-scripts build",
     "prettier": "./node_modules/.bin/eslint --fix ./",
     "dev": "webpack-dev-server --config ./webpack.config.dev.js --mode development --hot --open"
   },
@@ -26,10 +28,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.17.0",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1"
+    "style-loader": "^0.23.1"
   },
   "dependencies": {
     "babel-eslint": "^10.0.1",
@@ -40,8 +39,21 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
     "react-router": "^5.0.0",
+    "react-scripts": "^3.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.2",
     "redux-thunk": "^2.3.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
