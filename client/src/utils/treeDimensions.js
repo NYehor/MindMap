@@ -10,6 +10,6 @@ export const NODE = {
     letterWidth: 9,
     marginHorizontal: 10,
     width(d) {
-        return NODE.marginHorizontal * 2 + d.data.node.name.length * NODE.letterWidth
+        return NODE.marginHorizontal * 2 + d.data.name.length * NODE.letterWidth
     }
 };

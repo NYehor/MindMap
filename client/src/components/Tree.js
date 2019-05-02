@@ -10,12 +10,10 @@ export default class Tree extends Component {
         this.state = {
             size: {
                 width: 1000,
-                height: 500,
+                height: 600,
             }
         }    
 
-        this.leftBranch = [];
-        this.rightBranch = [];
         this.selectedNode = [];
         this.isEditableTree = false;
 
@@ -33,21 +31,23 @@ export default class Tree extends Component {
             switch (e.which) {
 
                 case keyCodes.ENTER:
-                    
+                
                     break;
 
-                case keyCodes.TAB:
-                    const prevNode = this.selectedNode[0];
-                    console.log(prevNode);
-                    const parent = prevNode.parent === null ? this.props.treeName : prevNode.data.node.name;
+                case keyCodes.TAB: 
+                {
+                    const parent = this.selectedNode[0];
+                    console.log(parent);
                     const node = {
-                        name: 'werewrewrwer' + ++this.count
+                        name: 'Node ' + ++this.count
                     };
-                    this.props.addNode(parent, node)
-                    break;
-
+                    this.props.addNode(parent.id, node);
+                    break; 
+                }
                 case keyCodes.DELETE:
-                    console.log(this.selectedNode)
+                    const node = this.selectedNode[0].data;
+                    console.log(node);
+                    this.props.removeNode(node);
                     break;
 
                 default:
@@ -69,18 +69,13 @@ export default class Tree extends Component {
 
         // init tree
         const stratify = d3.stratify()
-                            .id(data => data.node.name)
-                            .parentId(data => data.parent.name);
+                            .id(data => data.id)
+                            .parentId(data => data.parentID);
 
         const tree = d3.tree()
                         .size([size.height, 
                                SWITCH_INDEX * (size.width - 50) / 2]);
      
-
-        // const branchEl = d3.select(this.treeEL).append('g')
-        //                     .attr('class', `branch-${direction}`)
-        //                     .attr('transform', `translate(${size.width / 2},0)`);
-
         const branchEl = d3.select(`.branch-${direction}`)
                             .attr('transform', `translate(${size.width / 2},0)`);
 
@@ -119,7 +114,7 @@ export default class Tree extends Component {
     
         const node = branchEl
                         .selectAll('.node_group')
-                        .data(nodes_data, (d) => d.data.node.name);
+                        .data(nodes_data, (d) => d.data.id);
 
         console.log(node);   
 
@@ -152,7 +147,7 @@ export default class Tree extends Component {
             })
             .append('xhtml:div')
                 .attr('class', 'editable')
-                .html(d => d.data.node.name);
+                .html(d => d.data.name);
                 // .html(mdHtml.render(newSource));
 
             node    
@@ -177,10 +172,13 @@ export default class Tree extends Component {
                     console.log(d);
                     d3.select(nodes[i]).classed('node--selected', true);
                     this.selectedNode = [d, nodes[i]];
+                    this.all = nodes;
+                    console.log(nodes_data)
+    
                 })    
                 .select('div')
                     .attr('class', 'editable')
-                    .html(d => d.data.node.name);
+                    .html(d => d.data.name);
     
         // mdInit();
         // console.log(source);
@@ -189,45 +187,49 @@ export default class Tree extends Component {
 
     }
 
-    splitTree() {
-        const data = this.props.data;
-        const root = data.filter(({node}) => node.name === this.props.treeName);
-        const nodes = data.filter(({node}) => node.name !== this.props.treeName);
+    splitTree(data) {
 
-        let firstLevelNodes = [],
-            nextLevelNodes = [];
+        let leftBranch = [], 
+            rightBranch = [];
 
-        nodes.map(obj => {
-            if (obj.parent.name === this.props.treeName) {
-                firstLevelNodes.push(obj);
-            }
-            else {
-                nextLevelNodes.push(obj);
-            }
+        // debugger;
+        const root = data.filter(node => node.name === this.props.treeName)[0];
+        const nodes = data.filter(node => node.name !== this.props.treeName);
+console.log(root)
+        const firstLevelNodes = nodes.filter(node => {
+            console.log([root.id, node.parentID])
+            return node.parentID === root.id
         });
+        const nextLevelNodes = nodes.filter(node => node.parentID !== root.id);
+
         const splitIndex = Math.ceil(firstLevelNodes.length / 2);
 
-        this.leftBranch = firstLevelNodes.slice(0, splitIndex);
-        this.rightBranch = firstLevelNodes.slice(splitIndex);
+        rightBranch = firstLevelNodes.slice(0, splitIndex);
+        leftBranch = firstLevelNodes.slice(splitIndex);
 
-        nextLevelNodes.forEach(obj => {
-            if (this.leftBranch.some(({node}) => node.name === obj.parent.name)) {
-                this.leftBranch.push(obj);
+        console.log(rightBranch);
+        console.log(leftBranch);
+
+        nextLevelNodes.forEach(next => {
+            if (leftBranch.some(node => node.id === next.parentID)) {
+                leftBranch.push(next);
             }
             else {
-                this.rightBranch.push(obj);
+                rightBranch.push(next);
             }
         });
 
-        this.leftBranch = [...root, ...this.leftBranch];
-        this.rightBranch = [...root, ...this.rightBranch];
+        leftBranch = [root, ...leftBranch];
+        rightBranch = [root, ...rightBranch];
+
+        return { leftBranch, rightBranch };
     }
 
 
     updateTree() {
-        this.splitTree();
-        this.drawBranch(this.leftBranch, 'left');
-        this.drawBranch(this.rightBranch, 'right');             
+        const { leftBranch, rightBranch } = this.splitTree(this.props.nodes);
+        this.drawBranch(leftBranch, 'left');
+        this.drawBranch(rightBranch, 'right');             
     }
 
     componentDidMount() {

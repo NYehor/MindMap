@@ -5,7 +5,8 @@
   "main": "webpack.config.dev.js",
   "scripts": {
     "prettier": "./node_modules/.bin/eslint --fix ./",
-    "dev": "webpack-dev-server --config ./webpack.config.dev.js --mode development --hot --open"
+    "dev": "webpack-dev-server --config ./webpack.config.dev.js --mode development --hot --open",
+    "build": "webpack --config ./webpack.config.build.js --mode production"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +43,7 @@
     "react-router": "^5.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.2",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "uniqid": "^5.0.3"
   }
 }

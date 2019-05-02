@@ -9,6 +9,11 @@ export default function treeReducer(state = initialState, action) {
                 nodes: [...state.nodes, action.payload]
             }
     
+        case types.REMOVE_NODE:
+            return {
+                ...state,
+                nodes: state.nodes.filter(node => node.id !== action.payload.id)
+            }
         default:
             return state;
     }
