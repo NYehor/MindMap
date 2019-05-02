@@ -26,13 +26,42 @@ CREATE TABLE IF NOT EXISTS `procoder`.`authentication` (
   `last_name` VARCHAR(40) NULL DEFAULT NULL,
   `user_mail` VARCHAR(45) NOT NULL,
   `password` VARCHAR(20) NOT NULL,
-  `avatar_img_url` VARCHAR(1000) CHARACTER SET 'utf8' NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
+   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `user_mail_UNIQUE` (`user_mail` ASC) VISIBLE,
   UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) VISIBLE)
+   ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- ----------------------------------------------------------------------------
+-- Table procoder.users_avatar
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `procoder`.`users_avatar` (
+  `id` INT(11) NOT NULL ,
+  `avatar_img` VARBINARY(MAX) CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  CONSTRAINT `users_avatar`
+    FOREIGN KEY (`id`)
+    REFERENCES `procoder`.`authentication` (`id`)
+ )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- ----------------------------------------------------------------------------
+-- Table procoder.map_img
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `procoder`.`map_img` (
+  `map_id` INT(11) NOT NULL ,
+  `map_img` VARBINARY(MAX) CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  CONSTRAINT `map_img_key`
+    FOREIGN KEY (`map_id`)
+    REFERENCES `procoder`.`mapslist` (`map_id`)
+ )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 -- ----------------------------------------------------------------------------
 -- Table procoder.forshare
@@ -58,7 +87,8 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `procoder`.`mapslist` (
   `user_id` INT(11) NOT NULL,
   `map_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `map_img_url` VARCHAR(1000) CHARACTER SET 'utf8' NULL DEFAULT NULL,
+  `map_category` VARCHAR(20) NOT NULL,
+  `status` VARCHAR(20) NOT NULL,-- change for own|sharable|trash  
   `map_name` VARCHAR(60) NOT NULL,
   `edit_data` DATETIME NOT NULL,
   `last_edit` DATETIME NOT NULL,
@@ -98,7 +128,8 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `procoder`.`nodedata` (
   `node_id` INT(11) NOT NULL,
   `node_name` VARCHAR(100) NULL DEFAULT NULL,
-  `node_text` VARCHAR(5000) NULL DEFAULT NULL,
+  `node_content` NVARCHAR(MAX) NULL DEFAULT NULL,
+  `large_snippet` VARCHAR(MAX) NULL DEFAULT NULL,
   `map_id` INT(11) NOT NULL,
   PRIMARY KEY (`node_id`, `map_id`),
   UNIQUE INDEX `map_id_UNIQUE` (`map_id` ASC) VISIBLE)
@@ -112,7 +143,7 @@ DELIMITER $$
 
 DELIMITER $$
 USE `procoder`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_node`(map_id int(11), nodename varchar(100), nodetext varchar(5000), parentnode_id int(11))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_node`(map_id int(11), nodename varchar(100), nodetext nvarchar(max), parentnode_id int(11))
 BEGIN
 
 
