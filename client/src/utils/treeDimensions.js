@@ -6,10 +6,10 @@ export const TREE = {
 };
 
 export const NODE = {
-    height: 35,
-    letterWidth: 9,
+    height: 40,
+    letterWidth: 20,
     marginHorizontal: 10,
     width(d) {
-        return NODE.marginHorizontal * 2 + d.data.name.length * NODE.letterWidth
+        return NODE.marginHorizontal * 2 + d.data.content.length * NODE.letterWidth
     }
 };

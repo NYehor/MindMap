@@ -14,6 +14,14 @@ export default function treeReducer(state = initialState, action) {
                 ...state,
                 nodes: state.nodes.filter(node => node.id !== action.payload.id)
             }
+        case types.UPDATE_NODE:
+            return {
+                ...state,
+                nodes: [
+                    state.nodes.filter(n => node.id !== action.payload.id), 
+                    action.payload
+                ]
+            }
         default:
             return state;
     }

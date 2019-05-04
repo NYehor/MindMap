@@ -24,6 +24,20 @@ module.exports = {
       {
         test: /\.scss|sass$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "babel-loader"
+          },
+          {
+            loader: "react-svg-loader",
+            options: {
+              jsx: true 
+            }
+          }
+        ]
       }
     ]
   },

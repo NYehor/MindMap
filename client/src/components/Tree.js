@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as d3 from "d3";
 import { TREE, NODE } from '../utils/treeDimensions';
 import keyCodes from '../utils/keyCodes';
+import md from '../services/markdown';
 
 export default class Tree extends Component {
 
@@ -13,8 +14,26 @@ export default class Tree extends Component {
                 height: 600,
             }
         }    
+        this.md = md;
+        console.log(this.md)
 
-        this.selectedNode = [];
+        this.selected = {
+            d3Node: null,
+            domNode: null,
+            on() {
+                d3.select(this.domNode).classed('node--selected', true);
+            },
+            off() {
+                if (this.domNode) {
+                    d3.select(this.domNode).classed('node--selected', false);
+                }   
+            },
+            set(d3Node, domNode) {
+                this.d3Node = d3Node;
+                this.domNode = domNode;
+            }
+        };
+
         this.isEditableTree = false;
 
 
@@ -25,31 +44,67 @@ export default class Tree extends Component {
     bindDocumentHandlers() {
 
         document.addEventListener('keydown', (e) => {
-            e.preventDefault();
             console.log(e.which);
+            console.log(e.shiftKey)
 
             switch (e.which) {
 
-                case keyCodes.ENTER:
-                
+                // node creation at the siblings level
+                case keyCodes.ENTER: 
+                {
+                    if (!this.isEditableTree) {
+                        e.preventDefault();
+
+                        const node = this.selected.d3Node;
+                        const parent = node.parent.data;
+                        if (node.height === 0) {
+                            const node = {
+                                name: 'Node ' + ++this.count
+                            };
+                            this.props.addNode(parent.id, node);
+                        }    
+                    }
+                    else {
+                        const data = this.selected.d3Node.data;
+                        const editable = this.selected.domNode;
+                        editable.setAttribute('contenteditable', null);
+                        const content = editable.querySelector('.editable').innerHTML;
+                        console.log(content);
+                        this.props.updateNode(data, content);
+
+                        this.isEditableTree = false;
+
+                    }
                     break;
+                }               
 
                 case keyCodes.TAB: 
                 {
-                    const parent = this.selectedNode[0];
+                    e.preventDefault();
+                    const parent = this.selected.d3Node;
                     console.log(parent);
-                    const node = {
-                        name: 'Node ' + ++this.count
-                    };
-                    this.props.addNode(parent.id, node);
+                    // const node = {
+                    //     name: 'Node ' + ++this.count
+                    // };
+                    const nodeContent = '## Hello world!';
+
+                    this.props.addNode(parent.id, nodeContent);
                     break; 
                 }
                 case keyCodes.DELETE:
-                    const node = this.selectedNode[0].data;
+                {
+                    e.preventDefault();
+                    const node = this.selected.d3Node.data;
                     console.log(node);
                     this.props.removeNode(node);
                     break;
-
+                }
+                case keyCodes.ESC: 
+                {
+                    // after editing node -> turn off editableMode and save node
+                    // the same as clicking on outside of tree
+                    break;
+                }
                 default:
                     break;
             }
@@ -120,6 +175,8 @@ export default class Tree extends Component {
 
         node.exit().remove();   
 
+        const str = [this.md.render('# ertetretrt')]
+
         node    
             .enter()
             .append('g')
@@ -134,21 +191,26 @@ export default class Tree extends Component {
                 const y = NODE.height / 2;
                 return `translate(${-x}px, ${-y}px)`
             })
-            .classed('node--selected', (d) => {
-                if (this.selectedNode.length) {
-                    const [ , node] = this.selectedNode;
-                    d3.select(node).classed('node--selected', true);
-                }
-            })
             .on('click', (d, i, nodes) => {
                 console.log(d);
-                d3.select(nodes[i]).classed('node--selected', true);
-                this.selectedNode = [d, nodes[i]];
+                this.selected.off();
+                this.selected.set(d, nodes[i]);
+                this.selected.on();
+            })
+            .on('dblclick', (d, i, nodes) => {
+                this.isEditableTree = true;
+                console.log(nodes[i]);
+                const editableEl = nodes[i].querySelector('.editable');
+
+                editableEl.innerHTML = d.data.content;
+                editableEl.setAttribute('contentEditable', 'true');
             })
             .append('xhtml:div')
                 .attr('class', 'editable')
-                .html(d => d.data.name);
-                // .html(mdHtml.render(newSource));
+                .html((d, i, nodes) => {
+                    return this.md.render(d.data.content);
+                });
+                
 
             node    
                 .attr('class', 'node_group')
@@ -162,24 +224,29 @@ export default class Tree extends Component {
                     const y = NODE.height / 2;
                     return `translate(${-x}px, ${-y}px)`
                 })
-                .classed('node--selected', (d) => {
-                    if (this.selectedNode.length) {
-                        const [ , node] = this.selectedNode;
-                        d3.select(node).classed('node--selected', true);
-                    }
+                .classed('node--selected', (d, i, nodes) => {
+                    this.selected.on();
                 })
                 .on('click', (d, i, nodes) => {
                     console.log(d);
-                    d3.select(nodes[i]).classed('node--selected', true);
-                    this.selectedNode = [d, nodes[i]];
-                    this.all = nodes;
-                    console.log(nodes_data)
-    
+                    this.selected.off();
+                    this.selected.set(d, nodes[i]);
+                    this.selected.on();
+                })
+                .on('dblclick', (d, i, nodes) => {
+                    console.log('FROM DBCLICK');
+                    this.isEditableTree = true;
+                    console.log(nodes[i]);
+                    const editableEl = nodes[i].querySelector('.editable');
+                    editableEl.innerHTML = d.data.content;
+                    editableEl.setAttribute('contentEditable', 'true');
                 })    
                 .select('div')
                     .attr('class', 'editable')
-                    .html(d => d.data.name);
-    
+                    .html((d, i, nodes) => {
+                        return this.md.render(d.data.content);
+                    });
+        
         // mdInit();
         // console.log(source);
         // const newSource = source.replace(/<br>/g, '\n');
@@ -192,23 +259,19 @@ export default class Tree extends Component {
         let leftBranch = [], 
             rightBranch = [];
 
-        // debugger;
-        const root = data.filter(node => node.name === this.props.treeName)[0];
-        const nodes = data.filter(node => node.name !== this.props.treeName);
-console.log(root)
-        const firstLevelNodes = nodes.filter(node => {
-            console.log([root.id, node.parentID])
-            return node.parentID === root.id
-        });
+        // const root = data.filter(node => node.name === this.props.treeName)[0];
+        // const nodes = data.filter(node => node.name !== this.props.treeName);
+
+        const root = data.filter(node => node.parentID === null)[0];
+        const nodes = data.filter(node => node.parentID !== null);
+
+        const firstLevelNodes = nodes.filter(node => node.parentID === root.id);
         const nextLevelNodes = nodes.filter(node => node.parentID !== root.id);
 
         const splitIndex = Math.ceil(firstLevelNodes.length / 2);
 
         rightBranch = firstLevelNodes.slice(0, splitIndex);
         leftBranch = firstLevelNodes.slice(splitIndex);
-
-        console.log(rightBranch);
-        console.log(leftBranch);
 
         nextLevelNodes.forEach(next => {
             if (leftBranch.some(node => node.id === next.parentID)) {

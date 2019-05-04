@@ -11,9 +11,7 @@ hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
 hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
 hljs.registerLanguage('yaml', require('highlight.js/lib/languages/yaml'));
 
-const mdHtml = markdown();
-
-const hljs_options = {
+const mdHtml = require('markdown-it')({
 	html: false,
 	xhtmlOut: false,
 	breaks: true,
@@ -38,11 +36,10 @@ const hljs_options = {
         catch (__) {/**/
         }
       
-        return '<pre class="hljs"><code>' + esc(str) + '</code></pre>';
-    
+        return '<pre class="hljs"><code>' + esc(str) + '</code></pre>';    
     }
-};
+});
 
 
-export default markdown(hljs_options);
+export default mdHtml;
   

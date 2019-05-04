@@ -19,16 +19,16 @@ export function addNode(parent, node) {
     const root = {
         id: uniqid(),
         parentID: null,
-        name: parent
+        content: `### ${parent}`
     };
 
     const common = {
         id: uniqid(),
         parentID: parent,
-        ...node
+        // ...node
         // name: node.name,
-        // content: '',
-        // largeSnippets: []
+        content: node,
+        largeSnippets: []
     };
 
     const newNode = node ? common : root;
@@ -56,5 +56,21 @@ export function removeNode(node) {
             });     
         });
     
+    }
+}
+
+
+export function updateNode(node, content) {
+    return function(dispatch, getState) {
+
+        const updatedNode = {
+            ...node,
+            content
+        };
+
+        dispatch({
+            type: types.UPDATE_NODE,
+            payload: updatedNode
+        });
     }
 }
