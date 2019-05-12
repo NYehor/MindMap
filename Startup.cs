@@ -32,11 +32,12 @@ namespace Procoder
 
             services.AddDbContext<ProcederContext>(options =>
                 options.UseMySQL("server=localhost;port=3306;database=procoder;username=root;password=1111"));
-            services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IRepositoryMaps, Repository>();
+            services.AddTransient<IRepositoryUsers, Repository>();
             services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "client/build";
-            });
+{
+    configuration.RootPath = "client/build";
+});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

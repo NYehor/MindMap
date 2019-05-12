@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Procoder.Models;
-using Microsoft.Extensions.Configuration;
-using System.Configuration;
 
 namespace Procoder
 {
@@ -20,6 +14,16 @@ namespace Procoder
 
         }
         public DbSet<User> Users { get; set; }
-        public DbSet<Map> UserMapsData { get; set; }
+        public DbSet<Map> Maps { get; set; }
+        public DbSet<Nodes> Nodes { get; set; }
+        public DbSet<Snippet> Snippets { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<Map>().ToTable("maps");
+            modelBuilder.Entity<Nodes>().ToTable("node_data");
+
+        }
     }
 }
