@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
+import PerfectScrollbar from 'perfect-scrollbar';
+import sanitizeHtml  from 'sanitize-html';
+
 import { TREE, NODE } from '../utils/treeDimensions';
 import { Caret } from '../services/Caret';
 import keyCodes from '../utils/keyCodes';
@@ -34,56 +37,66 @@ export default class Tree extends Component {
         };
 
         this.isEditableTree = false;
-
+        this.perfectScrollbars = new Map();
 
         this.bindDocumentHandlers();
-        this.count = 0;
     }
 
     bindDocumentHandlers() {
 
+        document.addEventListener('paste', this.onPasteHandler);
+
+
         // document.addEventListener('keypress', (e) => {
-        //     console.log(e.which)
-        //     this.updateTree();
+        //     console.log(e.keyCode);
+        //     console.log(e.key);
 
         // });
 
+        document.addEventListener('keyup', (e) => {
+            
+            switch (e.which) {
+                case keyCodes.BACKSPACE: 
+                {
+                    const { domNode } = this.selected;
+                    const editable = domNode.querySelector('.editable');
+                    const content = editable.innerHTML.replace(/(<br>$)+/, '');
+                    console.log(content);
+                    const wrapper = domNode.closest('.node');
+                    wrapper.style.height = `${NODE.height(content)}px`;
+                    wrapper.style.width = `${NODE.width(content)}px`;
+                    break;
+                }            
+                default:
+                    const { domNode } = this.selected;
+                    const editable = domNode.querySelector('.editable');
+                    const content = editable.innerHTML;
+                    console.log(content);
+                    const wrapper = domNode.closest('.node');
+                    wrapper.style.width = `${NODE.width(content)}px`;
+                    break;
+            }
+            this.updateCustomNodeScrollbars();
+
+        });
+
         document.addEventListener('keydown', (e) => {
             // console.log(e.which);
+            // console.log(e.keyCode);
 
             switch (e.which) {
 
                 case keyCodes.ENTER: 
                 {
-                    console.log('isEditableTree ', this.isEditableTree)
-                    // ADD NEW LINE BY SHIFT+ENTER AT THE EDITING NODE
-                    if (e.shiftKey) {
-                        e.preventDefault();
-                        const {d3Node: {data}, domNode} = this.selected;
-                        const editable = domNode.querySelector('.editable');
-                        editable.setAttribute('contenteditable', null);
-                        // const caret = Caret.get();
-                        const content = editable.innerHTML;
-                        console.log(content);
-                        this.props.updateNode(data, content);
-                        break;
-                    }
-
-                    // EXIT EDITABLE MODE AND SAVE NODE
+                    // ADD NEW LINE AT THE EDITING NODE
                     if(this.isEditableTree) {
-                        // e.preventDefault();
-
-                        // this.isEditableTree = false;
-                        const {d3Node: {data}, domNode} = this.selected;
+                        const { domNode } = this.selected;
                         const editable = domNode.querySelector('.editable');
-                        // editable.setAttribute('contenteditable', null);
                         const content = editable.innerHTML;
                         console.log(content);
                         const wrapper = domNode.closest('.node');
-                        console.log(wrapper)
                         console.log(`${NODE.height(content)}px`)
                         wrapper.style.height = `${NODE.height(content)}px`;
-                        // this.props.updateNode(data, content);   
                         break; 
                     }
                     // ENTER EDITABLE MODE
@@ -100,15 +113,16 @@ export default class Tree extends Component {
                     }
                 }               
 
+                // CREATE NEW NODE FROM PARENT
                 case keyCodes.TAB: 
                 {
                     e.preventDefault();
                     const parent = this.selected.d3Node;
-                    // console.log(parent);
                     const nodeContent = '## Hello world!';
                     this.props.addNode(parent.id, nodeContent);
                     break; 
                 }
+                // DELETE SELECTED NODE
                 case keyCodes.DELETE:
                 {
                     if (!this.isEditableTree) {
@@ -118,30 +132,29 @@ export default class Tree extends Component {
                     }
                     break;
                 }
-                case keyCodes.BACKSPACE: 
-                {
-                    const {d3Node: {data}, domNode} = this.selected;
-                    const editable = domNode.querySelector('.editable');
-                    const content = editable.innerHTML;
-                    console.log(content);
-                    if (content.endsWith('<br>')) {
-                        editable.setAttribute('contenteditable', null);
-                        const nextContent = content.replace(/(<br>)+$/, '');
-                        console.log(nextContent);
-                        this.props.updateNode(data, nextContent);
-                    }
-                    break;
-                }
+                // EXIT EDITABLE MODE AND SAVE NODE
                 case keyCodes.ESC: 
                 {
-                    // after editing node -> turn off editableMode and save node
-                    // the same as clicking on outside of tree
+                    e.preventDefault();
+                    this.isEditableTree = false;
+                    const {d3Node: {data}, domNode} = this.selected;
+                    const editable = domNode.querySelector('.editable');
+                    editable.setAttribute('contenteditable', null);
+                    const content = editable.innerHTML.replace(/<br>$/, '');
+                    this.props.updateNode(data, content);
                     break;
                 }
                 default:
                     break;
             }
         });
+    }
+
+    onPasteHandler = async () => {
+        const pastedText = await navigator.clipboard.readText();
+        const clean = pastedText.replace(/(<([^>]+)>)/ig,"");
+        console.log(clean);
+
     }
 
     updateEditableNode() {
@@ -156,6 +169,7 @@ export default class Tree extends Component {
 
     componentWillUnmount() {
         // remove all document event handlers
+        document.removeEventListener('paste', this.onPasteHandler);
 
     }
 
@@ -265,6 +279,11 @@ export default class Tree extends Component {
                 }
             })                                
             .append('foreignObject')
+            .html((d, i, nodes) => {
+                // init scrollbar
+                const scrollbar = new PerfectScrollbar(nodes[i]);
+                this.perfectScrollbars.set(d.data.id, scrollbar);                
+            })
             .attr('class', 'node')
             .style('height', d => NODE.height(d.data.content))
             .style('width', d => NODE.width(d.data.content))
@@ -314,14 +333,6 @@ export default class Tree extends Component {
                     this.selected.set(d, nodes[i]);
                     this.selected.on();
                 })
-                // .on('dblclick', (d, i, nodes) => {
-                //     console.log('FROM DBCLICK');
-                //     this.isEditableTree = true;
-                //     const editableEl = nodes[i].querySelector('.editable');
-                //     editableEl.innerHTML = d.data.content;
-                //     editableEl.setAttribute('contentEditable', 'true');
-                //     Caret.set(editableEl);
-                // })  
                 .select('div')
                     .attr('class', 'editable')
                     .html((d, i, nodes) => {
@@ -373,11 +384,11 @@ export default class Tree extends Component {
                         .on("zoom", () => d3.select('#tree-canvas').attr("transform", d3.event.transform)))
                         .on('dblclick.zoom', null);
 
-
         const { leftBranch, rightBranch } = this.splitTree(this.props.nodes);
         this.drawBranch(leftBranch, 'left');
         this.drawBranch(rightBranch, 'right'); 
-        this.updateEditableNode();            
+        this.updateEditableNode();
+        this.updateEditableNode();           
     }
 
     componentDidMount() {
@@ -388,6 +399,15 @@ export default class Tree extends Component {
     componentDidUpdate() {
         console.log('%c TREE: componentDidUpdate ', 'color: green; background-color: LightGreen; font-weight: bold;')
         this.updateTree();
+    }
+
+    updateCustomNodeScrollbars() {
+        if (this.perfectScrollbars.size !== 0) {
+            for (const[ , nodeScrollbar] of this.perfectScrollbars) {
+                console.log('update scrollbar');
+                nodeScrollbar.update();
+            }    
+        }
     }
 
     render() {

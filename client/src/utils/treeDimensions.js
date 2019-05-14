@@ -16,17 +16,18 @@ export const NODE = {
     },
     container: {
         width: 250,
-        height: 150
+        height: 190
     },
     width(content) {
-        // d => d.data.content;
         const lines = content.replace(/<br>/g, '\n').split('\n');
         const lengthes = lines.map(line => line.length);
         const maxLineLength = Math.max(...lengthes);
-        return maxLineLength * NODE.letterWidth + NODE.margin.left + NODE.margin.right;    
+        const _w = maxLineLength * NODE.letterWidth + NODE.margin.left + NODE.margin.right;
+        return  (_w > NODE.container.width) ? NODE.container.width : _w;
     },
     height(content) {
         const lines = content.replace(/<br>/g, '\n').split('\n');
-        return lines.length * NODE.lineHeight + 10; 
+        const _h = lines.length * NODE.lineHeight + 10; 
+        return (_h > NODE.container.height) ? NODE.container.height : _h;
     }
 };

@@ -22,6 +22,9 @@
         &--selected {
             border-color: #28b3f3;
         }
+
+        position: relative;
+        overflow: hidden;
     }
 
     .editable {
@@ -33,7 +36,6 @@
         padding: 3px 10px;
         margin: 0;
         display: inline-block;
-
     }
 
     code {
