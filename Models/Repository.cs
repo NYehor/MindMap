@@ -56,7 +56,7 @@ namespace Procoder.Models
         public JsonResult GetAllUser()
         {
             var users = context.Users
-                .OrderBy(o => o.userId)
+                .OrderBy(o => o.UserId)
                .Select(p => new { p.userId });
             return new JsonResult(users);
         }

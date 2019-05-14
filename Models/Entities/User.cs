@@ -10,13 +10,17 @@ namespace Procoder.Models
     public class User
     {
         [Column("id")]
-        public int userId { get; set; }
-        public string user_name { get; set; }
-        public string last_name { get; set; }
-
-        public string avatar_img_url { get; set; }
-        public string user_mail { get; set; }
-        public string password { get; set; }
+        public int UserId { get; set; }
+        [Column("user_name")]
+        public string Name { get; set; }
+        [Column("last_name")]
+        public string LastName { get; set; }
+        [Column("avatar_img")]
+        public string AvatarImg { get; set; }
+        [Column("user_mail")]
+        public string Mail { get; set; }
+        [Column("password")]
+        public string Password { get; set; }
         //public List<int> mapsId { get; set; }
     }
 }
