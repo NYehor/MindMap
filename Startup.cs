@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Procoder.Services.Security;
 using Procoder.Configurations;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Newtonsoft.Json;
 
 namespace Procoder
 {
@@ -31,6 +32,7 @@ namespace Procoder
         {
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().AddJsonOptions(opts => opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize);
 
             services.AddDbContext<ProcederContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
