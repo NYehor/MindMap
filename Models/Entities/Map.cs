@@ -7,18 +7,22 @@ using System.Threading.Tasks;
 namespace Procoder.Models
 {
     [Serializable]
-    public class Map
+    public class Map : IMapForList
     {
         [Column("user_id")]
         public int userId { get; set; }
         [Column("map_id")]
-        public int id { get; set; }
+        public int Id { get; set; }
+        //only from front 
+        //[]
+        public string Category { get; set; }
+
         [Column("map_category")]
-        public string category { get; set; }
+        public char Cat { get; set; }
         [Column("status")]
-        public char status { get; set; }
+        public char Status { get; set; }
         [Column("map_name")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Column("create_data")]
         public DateTime CreateData { get; set; }

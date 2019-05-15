@@ -29,7 +29,7 @@ namespace Procoder.Controllers
         ////get concrete map from concrete user
         [Route("api/user/maps/{mapId:int}")]
         [HttpGet]
-        public JsonResult GetMap(int mapId)
+        public ActionResult<IEnumerable<IMapForList>> GetMap(int mapId)
         {
             return repositoryMaps.GetConcreteMap(mapId);
         }
