@@ -7,7 +7,6 @@ using Procoder.Models;
 
 namespace Procoder.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -18,8 +17,9 @@ namespace Procoder.Controllers
 
         //GET/users
         //get list of all users
+        [Route("api/[controller]")]
         [HttpGet]
-        public JsonResult GetUsers()
+        public ActionResult<IEnumerable<object>> GetUsers()
         {
             return repositoryUsers.GetAllUser();
         }
@@ -35,14 +35,16 @@ namespace Procoder.Controllers
 
         //POST/users
         //add new user
-        //[HttpPost]
-        //public bool AddUser([FromBody] User value)
-        //{
-
-        //}
+        [Route("api/[controller]")]
+        [HttpPost]
+        public ActionResult<bool> AddUser([FromBody] User value)
+        {
+            return repositoryUsers.AddNewUser();
+        }
 
         //POST/users/ID/maps/ID ??????
         //add new map from concrete user
+        //https://metanit.com/sharp/entityframework/6.7.php to use stored procedure
         //[Route("api/users/{id}/maps/id")]
         //[HttpPost]
         //public bool AddUserMap(int userId, [FromBody] string value)

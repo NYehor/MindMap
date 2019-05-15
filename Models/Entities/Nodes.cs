@@ -9,12 +9,12 @@ namespace Procoder.Models
     public class Nodes
     {
         [Column("node_id")]
-        public string id { get; set; }
+        public string Id { get; set; }
         [Column("pre_node_numb")]
-        public string parentId { get; set; }
+        public string ParentID { get; set; }
         [Column("node_content")]
-        public string content { get; set; }
+        public string Content { get; set; }
         [Column("large_snippet")]
-        public List<Snippet> largeSnippets { get; set; }
+        public List<Snippet> LargeSnippet { get; set; }
     }
 }

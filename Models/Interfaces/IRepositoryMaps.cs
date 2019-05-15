@@ -5,7 +5,7 @@ namespace Procoder.Models
 {
     public interface IRepositoryMaps
     {
-        JsonResult GetConcreteMap(int mapId);
+        ActionResult<IEnumerable<IMapForList>> GetConcreteMap(int mapId);
         JsonResult GetAllMyMaps(int userId);
     }
 }

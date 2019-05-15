@@ -1,4 +1,4 @@
--- ----------------------------------------------------------------------------
+﻿-- ----------------------------------------------------------------------------
 -- MySQL Workbench Migration
 -- Migrated Schemata: procoder
 -- Source Schemata: procoder
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `procoder`.`users` (
   `last_name` VARCHAR(40) NULL DEFAULT NULL,
   `user_mail` VARCHAR(45) NOT NULL,
   `password` VARCHAR(20) NOT NULL,
-  `salt` VARCHAR(15) NULL DEFAULT NULL,
+  -- `salt` VARCHAR(15) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `user_mail_UNIQUE` (`user_mail` ASC) VISIBLE,

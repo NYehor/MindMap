@@ -5,8 +5,8 @@ namespace Procoder.Models
     public class Snippet
     {
         [Column("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
         [Column("snippet")]
-        public string snippet { get; set; }
+        public string Snip { get; set; }
     }
 }
