@@ -1,10 +1,3 @@
-export const TREE = {
-    width: 1500,
-    height: 800,
-    marginVertical: 100,
-    marginHorizontal: 100
-};
-
 export const NODE = {
     lineHeight: 24,
     letterWidth: 10,
@@ -16,6 +9,7 @@ export const NODE = {
     },
     container: {
         width: 250,
+        minWidth: 70,
         height: 190
     },
     width(content) {
@@ -23,7 +17,8 @@ export const NODE = {
         const lengthes = lines.map(line => line.length);
         const maxLineLength = Math.max(...lengthes);
         const _w = maxLineLength * NODE.letterWidth + NODE.margin.left + NODE.margin.right;
-        return  (_w > NODE.container.width) ? NODE.container.width : _w;
+        return  (_w <= NODE.container.minWidth) ? NODE.container.minWidth :
+                (_w > NODE.container.width) ? NODE.container.width : _w;
     },
     height(content) {
         const lines = content.replace(/<br>/g, '\n').split('\n');

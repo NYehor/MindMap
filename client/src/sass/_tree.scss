@@ -7,7 +7,6 @@
 
 #procoder-tree {
 
-
     .node {
         cursor: pointer;
         border: 2px solid #000;
@@ -22,7 +21,7 @@
         &--selected {
             border-color: #28b3f3;
         }
-
+        // for perfect scrollbar
         position: relative;
         overflow: hidden;
     }
@@ -33,17 +32,41 @@
         font-family: monospace, sans-serif;
         font-weight: bold;
         color: rgb(255, 255, 255);
-        padding: 3px 10px;
+        padding: 3px 15px;
         margin: 0;
         display: inline-block;
     }
 
+}
+
+code {
+    font: bold 13px monospace;
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+.hljs {
+    margin: 5px 0;
+    border-radius: 5px;
+
     code {
-        font: bold 13px monospace;
-        padding: 2px 4px;
-        // font-size: 90%;
-        color: #c7254e;
-        background-color: #f9f2f4;
-        border-radius: 4px;
+        display: block;
+    }
+}
+
+.collapsed-code {
+    .hljs {
+        display: none;
+    }
+    position: relative;
+    margin: 5px 0;
+    &:after {
+        content: '+ Open snippet';
+        display: block;
+        font-weight: bold;
+        border: 2px solid #fff;
+        padding: 0 10px;
+        border-radius: 3px;
     }
 }

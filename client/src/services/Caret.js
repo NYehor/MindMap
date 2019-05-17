@@ -1,5 +1,3 @@
-import { get } from "http";
-
 export const Caret = {
     set(parent) {
         console.log(parent.innerHTML);

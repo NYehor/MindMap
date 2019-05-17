@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
 import PerfectScrollbar from 'perfect-scrollbar';
-import sanitizeHtml  from 'sanitize-html';
 
-import { TREE, NODE } from '../utils/treeDimensions';
+import DomModal from '../services/Modal';
+import { NODE } from '../utils/treeDimensions';
 import { Caret } from '../services/Caret';
 import keyCodes from '../utils/keyCodes';
-import md from '../services/markdown';
+import { md, sanitize } from '../services/markdown';
 
 export default class Tree extends Component {
 
@@ -46,38 +46,32 @@ export default class Tree extends Component {
 
         document.addEventListener('paste', this.onPasteHandler);
 
-
-        // document.addEventListener('keypress', (e) => {
-        //     console.log(e.keyCode);
-        //     console.log(e.key);
-
-        // });
-
         document.addEventListener('keyup', (e) => {
-            
-            switch (e.which) {
-                case keyCodes.BACKSPACE: 
-                {
-                    const { domNode } = this.selected;
-                    const editable = domNode.querySelector('.editable');
-                    const content = editable.innerHTML.replace(/(<br>$)+/, '');
-                    console.log(content);
-                    const wrapper = domNode.closest('.node');
-                    wrapper.style.height = `${NODE.height(content)}px`;
-                    wrapper.style.width = `${NODE.width(content)}px`;
-                    break;
-                }            
-                default:
-                    const { domNode } = this.selected;
-                    const editable = domNode.querySelector('.editable');
-                    const content = editable.innerHTML;
-                    console.log(content);
-                    const wrapper = domNode.closest('.node');
-                    wrapper.style.width = `${NODE.width(content)}px`;
-                    break;
+
+            const charList = `abcdefghijklmnopqrstuvwxyz
+                              0123456789
+                              !@#$%^&*()_-+?><{}[]\|?/
+                              "' `;
+            console.log(e.key.toLowerCase());
+
+            if (e.which === keyCodes.BACKSPACE) {
+                const { domNode } = this.selected;
+                const editable = domNode.querySelector('.editable');
+                const content = editable.innerHTML.replace(/(<br>$)+/, '');
+                console.log(content);
+                const wrapper = domNode.closest('.node');
+                wrapper.style.height = `${NODE.height(content)}px`;
+                wrapper.style.width = `${NODE.width(content)}px`;
+            }            
+            if (charList.includes(e.key.toLowerCase())) {
+                const { domNode } = this.selected;
+                const editable = domNode.querySelector('.editable');
+                const content = editable.innerHTML;
+                console.log(content);
+                const wrapper = domNode.closest('.node');
+                wrapper.style.width = `${NODE.width(content)}px`;    
             }
             this.updateCustomNodeScrollbars();
-
         });
 
         document.addEventListener('keydown', (e) => {
@@ -115,12 +109,14 @@ export default class Tree extends Component {
 
                 // CREATE NEW NODE FROM PARENT
                 case keyCodes.TAB: 
-                {
+                {       
                     e.preventDefault();
-                    const parent = this.selected.d3Node;
-                    const nodeContent = '## Hello world!';
-                    this.props.addNode(parent.id, nodeContent);
-                    break; 
+                    if (!this.isEditableTree) {
+                        const parent = this.selected.d3Node;
+                        const nodeContent = '## Hello world!';
+                        this.props.addNode(parent.id, nodeContent);
+                    }
+                    break;     
                 }
                 // DELETE SELECTED NODE
                 case keyCodes.DELETE:
@@ -136,12 +132,14 @@ export default class Tree extends Component {
                 case keyCodes.ESC: 
                 {
                     e.preventDefault();
-                    this.isEditableTree = false;
-                    const {d3Node: {data}, domNode} = this.selected;
-                    const editable = domNode.querySelector('.editable');
-                    editable.setAttribute('contenteditable', null);
-                    const content = editable.innerHTML.replace(/<br>$/, '');
-                    this.props.updateNode(data, content);
+                    if (this.isEditableTree) {
+                        this.isEditableTree = false;
+                        const {d3Node: {data}, domNode} = this.selected;
+                        const editable = domNode.querySelector('.editable');
+                        editable.setAttribute('contenteditable', null);
+                        const content = editable.innerHTML.replace(/<br>$/, '');
+                        this.props.updateNode(data, content);    
+                    }
                     break;
                 }
                 default:
@@ -150,12 +148,17 @@ export default class Tree extends Component {
         });
     }
 
-    onPasteHandler = async () => {
-        const pastedText = await navigator.clipboard.readText();
-        const clean = pastedText.replace(/(<([^>]+)>)/ig,"");
-        console.log(clean);
 
+    onPasteHandler(e) {
+        e.preventDefault();
+        const text = e.clipboardData.getData('text/plain');
+        console.log('Got pasted text: ', text.length);
+        if (text.length > 1000) {
+
+        }
+        document.execCommand("insertHTML", false, text);      
     }
+
 
     updateEditableNode() {
         if (this.isEditableTree) {
@@ -237,23 +240,11 @@ export default class Tree extends Component {
                 .attr('stroke', '#aaa')
                 .attr('stroke-width', 2)
                 .merge(edge)
-                // .attr('d', d3.linkHorizontal().x(d => d.y).y(d => d.x))
                 .attr('d', d3.linkHorizontal().x(d => {
-                    if (direction === 'right') {
-                        return d.y;
-                    }
-                    else {
-                        return -d.y;
-                    }
+                    return (direction === 'right') ? d.y : -d.y;
                 }).y(d => d.x))
-
-                // .attr("d", function(d) {
-                //     return "M" + d.target.y + "," + d.target.x + "C" + (d.target.y + d.source.y) / 2.5 + "," + d.target.x + " " + (d.target.y + d.source.y) / 2 + "," + d.source.x + " " + d.source.y + "," + d.source.x;
-                // })
                 .lower();
-
-        }
-        
+        }       
         
         
         // get nodes selections    
@@ -299,8 +290,8 @@ export default class Tree extends Component {
             })
             .append('xhtml:div')
                 .attr('class', 'editable')
-                .html((d, i, nodes) => {
-                    const source = d.data.content.replace(/<br>/g, '\n');
+                .html(d => {
+                    const source = sanitize(d.data.content);
                     console.log(source)
                     return md.render(source);
             });
@@ -333,10 +324,23 @@ export default class Tree extends Component {
                     this.selected.set(d, nodes[i]);
                     this.selected.on();
                 })
+                .on('mousedown', () => {
+                    const largeSnippet = d3.event.target.closest('.hljs');
+                    if (largeSnippet) {
+                        const html = largeSnippet.cloneNode(true);
+                        DomModal.init(html);                        
+                    }
+                    const collapsedSnippet = d3.event.target;
+                    if (collapsedSnippet.classList.contains('collapsed-code')) {
+                       const snippet = collapsedSnippet.querySelector('.hljs');
+                       const html = snippet.cloneNode(true);
+                       DomModal.init(html);
+                    }
+                })
                 .select('div')
                     .attr('class', 'editable')
-                    .html((d, i, nodes) => {
-                        const source = d.data.content.replace(/<br>/g, '\n');
+                    .html(d => {
+                        const source = sanitize(d.data.content);     
                         console.log(source)
                         return md.render(source);
                 });
@@ -380,7 +384,7 @@ export default class Tree extends Component {
 
     updateTree() {
         d3.select(this.svg).call(d3.zoom()
-                        .scaleExtent([1/50, 4])
+                        .scaleExtent([1/30, 4])
                         .on("zoom", () => d3.select('#tree-canvas').attr("transform", d3.event.transform)))
                         .on('dblclick.zoom', null);
 
@@ -388,7 +392,6 @@ export default class Tree extends Component {
         this.drawBranch(leftBranch, 'left');
         this.drawBranch(rightBranch, 'right'); 
         this.updateEditableNode();
-        this.updateEditableNode();           
     }
 
     componentDidMount() {
@@ -404,7 +407,6 @@ export default class Tree extends Component {
     updateCustomNodeScrollbars() {
         if (this.perfectScrollbars.size !== 0) {
             for (const[ , nodeScrollbar] of this.perfectScrollbars) {
-                console.log('update scrollbar');
                 nodeScrollbar.update();
             }    
         }
