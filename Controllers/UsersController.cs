@@ -28,9 +28,9 @@ namespace Procoder.Controllers
         //get concrete user
         [Route("api/users/{id}")]
         [HttpGet("{id:int}")]
-        public JsonResult GetUser(int id)
+        public ActionResult<bool> GetUser(int id, string password, out User user)
         {
-            return repositoryUsers.GetUser(id);
+            return repositoryUsers.GetUser(id, password, out  user);
         }
 
         //POST/users

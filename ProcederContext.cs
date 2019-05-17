@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Procoder.Models;
+using Procoder.Models.Entities;
 
 namespace Procoder
 {
@@ -15,15 +16,16 @@ namespace Procoder
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Map> Maps { get; set; }
-        public DbSet<Nodes> Nodes { get; set; }
+        public DbSet<NodeData> NodeData { get; set; }
+        public DbSet<NodesList> NodesList { get; set; }
         public DbSet<Snippet> Snippets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<Map>().ToTable("maps");
-            modelBuilder.Entity<Nodes>().ToTable("node_data");
-
+            modelBuilder.Entity<NodeData>().ToTable("nodes_data");
+            modelBuilder.Entity<NodesList>().ToTable("nodes_data");
         }
     }
 }

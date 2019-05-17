@@ -5,7 +5,7 @@ namespace Procoder.Models
 {
     public interface IRepositoryUsers
     {
-        JsonResult GetUser(int id);
+        ActionResult<bool> GetUser(int id, string password, out User user);
         ActionResult<IEnumerable<object>> GetAllUser();
         ActionResult<bool> AddNewUser();
     }
