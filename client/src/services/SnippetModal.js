@@ -24,20 +24,29 @@ modalHeader.querySelector('.close-icon').addEventListener('click', (e) => {
     modalRoot.classList.remove('modal--open');
     modalRoot.removeChild(modal);
     modal.removeChild(modalBody);
-    modalBody.innerHTML = '';
     scrollbar = null;
-    modalRoot.style.height = null;
+    modalBody.innerHTML = '';
+    modal.style = null;
+    modalRoot.style = null;
 });
 
-const DomModal = {
+const SnippetModal = {
     init(element) {
         modalRoot.classList.add('modal--open');
-        modalRoot.style.height = `${document.documentElement.scrollHeight + 200}px`;
         modalRoot.appendChild(modal);
         modal.appendChild(modalBody);
-        modalBody.appendChild(element);
-        scrollbar = new PerfectScrollbar(modalBody);   
+        modalBody.appendChild(element);    
+        scrollbar = new PerfectScrollbar(modalBody);       
+
+        if (modalBody.offsetHeight + 200 < document.documentElement.scrollHeight) {
+            modalRoot.style.position = 'fixed';
+            modal.style.height = `${modalBody.offsetHeight}px`;
+        }
+        else {
+            modalRoot.style.position = 'absolute';
+            modalRoot.style.height = `${modalBody.offsetHeight + 200}px`;
+        }
     }
 };
 
-export default DomModal;
+export default SnippetModal;

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as d3 from "d3";
 import PerfectScrollbar from 'perfect-scrollbar';
 
-import DomModal from '../services/Modal';
+import SnippetModal from '../services/SnippetModal';
 import { NODE } from '../utils/treeDimensions';
 import { Caret } from '../services/Caret';
 import keyCodes from '../utils/keyCodes';
@@ -328,13 +328,13 @@ export default class Tree extends Component {
                     const largeSnippet = d3.event.target.closest('.hljs');
                     if (largeSnippet) {
                         const html = largeSnippet.cloneNode(true);
-                        DomModal.init(html);                        
+                        SnippetModal.init(html);                        
                     }
                     const collapsedSnippet = d3.event.target;
                     if (collapsedSnippet.classList.contains('collapsed-code')) {
                        const snippet = collapsedSnippet.querySelector('.hljs');
                        const html = snippet.cloneNode(true);
-                       DomModal.init(html);
+                       SnippetModal.init(html);
                     }
                 })
                 .select('div')

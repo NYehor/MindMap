@@ -56,11 +56,13 @@ code {
 }
 
 .collapsed-code {
+    position: relative;
+    margin: 5px 0;
+
     .hljs {
         display: none;
     }
-    position: relative;
-    margin: 5px 0;
+    
     &:after {
         content: '+ Open snippet';
         display: block;
