@@ -21,11 +21,11 @@ namespace Procoder.Models
         public string Category { get; set; }
 
         [Column("map_category")]
-        public char Cat { get; set; }
+        public string Cat { get; set; }
 
         [JsonProperty("Status")]
         [Column("status")]
-        public char Status { get; set; }
+        public string Status { get; set; }
 
         [JsonProperty("Name")]
         [Column("map_name")]

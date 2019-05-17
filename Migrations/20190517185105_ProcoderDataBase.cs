@@ -16,8 +16,8 @@ namespace Procoder.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<int>(nullable: false),
                     Category = table.Column<string>(nullable: true),
-                    map_category = table.Column<string>(nullable: false),
-                    status = table.Column<string>(nullable: false),
+                    map_category = table.Column<string>(nullable: true),
+                    status = table.Column<string>(nullable: true),
                     map_name = table.Column<string>(nullable: true),
                     create_data = table.Column<DateTime>(nullable: false),
                     last_edit = table.Column<DateTime>(nullable: false)

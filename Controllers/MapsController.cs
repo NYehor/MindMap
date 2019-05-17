@@ -25,12 +25,13 @@ namespace Procoder.Controllers
 
         [HttpPost]
         [HttpPost("putmap")]
-        public IActionResult PutMap([FromBody]string jsonFile)
+        public IActionResult PutMap([FromBody]object jsonFile)
         {
-            if(jsonFile == string.Empty || jsonFile == null)
+            string jsFile = Convert.ToString(jsonFile);
+            if(jsFile == string.Empty || jsFile == null)
                 return Ok(new { OK = "No" });
 
-            Map info = JsonConvert.DeserializeObject<Map>(jsonFile);
+            Map info = JsonConvert.DeserializeObject<Map>(jsFile);
             info.LastEdit = DateTime.Now;
 
             Console.WriteLine(info.Name);

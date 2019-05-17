@@ -27,8 +27,6 @@ namespace Procoder.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Cat")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)))
                         .HasColumnName("map_category");
 
                     b.Property<string>("Category");
@@ -43,8 +41,6 @@ namespace Procoder.Migrations
                         .HasColumnName("map_name");
 
                     b.Property<string>("Status")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)))
                         .HasColumnName("status");
 
                     b.Property<int>("userId")
