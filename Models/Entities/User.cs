@@ -18,7 +18,7 @@ namespace Procoder.Models
         [Column("avatar_img")]
         public string AvatarImg { get; set; }
         [Column("user_mail")]
-        public string Mail { get; set; }
+        public string Email { get; set; }
         [Column("password")]
         public string Password { get; set; }
         //public List<int> mapsId { get; set; }

@@ -12,18 +12,18 @@ using Newtonsoft.Json;
 namespace Procoder.Models
 {
 
-    public class Repository : IRepositoryUsers, IRepositoryMaps
+    public class Repository : IRepositoryUsers/*, IRepositoryMaps*/
     {
-        private ProcederContext context;
+        private ProcoderContext context;
 
-        public Repository(ProcederContext ctx) => context = ctx;
+        public Repository(ProcoderContext ctx) => context = ctx;
 
         public JsonResult GetAllMyMaps(int userId)
         {
             IEnumerable<object> map = context.Maps
-                 .OrderBy(c => c.id)
+                 .OrderBy(c => c.Id)
                  .Where(d => d.userId == userId)
-                 .Select(p => new { map = p.name, category = p.category, create = p.CreateData, edit = p.LastEdit }
+                 .Select(p => new { map = p.Name, category = p.Category, create = p.CreateData, edit = p.LastEdit }
                  )
                  .AsEnumerable()
                  .Select(an => new
@@ -36,24 +36,24 @@ namespace Procoder.Models
             return new JsonResult(map);
         }
 
-        public ActionResult<IEnumerable<IMapForList>> GetConcreteMap(int mapId)
-        {
-            var map = context.Maps
-                 .Where(v => v.id == mapId)
-                 .Select(n => new Map
-                 {
-                     userId = n.userId,
-                     id = n.id,
-                     category = n.category,
-                     status = n.status,
-                     name = n.name,
-                     CreateData = n.CreateData,
-                     LastEdit = n.LastEdit
-                 })
-                                     //continue here
-                                     .Include(c => c.Nodes).ToArray();
-            return map;
-        }
+        //public ActionResult<IEnumerable<IMapForList>> GetConcreteMap(int mapId)
+        //{
+        //    var map = context.Maps
+        //         .Where(v => v.Id == mapId)
+        //         .Select(n => new Map
+        //         {
+        //             userId = n.userId,
+        //             Id = n.Id,
+        //             Category = n.Category,
+        //             Status = n.Status,
+        //             Name = n.Name,
+        //             CreateData = n.CreateData,
+        //             LastEdit = n.LastEdit
+        //         })
+        //                             //continue here
+        //          .Include(c => c.Nodes).ToArray();
+        //    return map;
+        //}
 
         public ActionResult<IEnumerable<object>> GetAllUser()
         {
@@ -72,7 +72,7 @@ namespace Procoder.Models
                 p.UserId,
                 p.Name,
                 p.LastName,
-                p.Mail,
+                p.Email,
                 p.Password
             })
             .Where(p => id == p.UserId)

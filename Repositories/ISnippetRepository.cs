@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Procoder.Models;
 
-namespace Procoder.Services.Security
+namespace Procoder.Repositories
 {
-    public interface IAuthenticateService
+    public interface ISnippetRepository : IGenericRepository<Snippet>
     {
-        User Authenticate(string login, string password);
+        Snippet GetById(string id);
     }
 }

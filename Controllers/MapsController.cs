@@ -5,36 +5,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Procoder.Models;
+using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using Procoder.Repositories;
 
 namespace Procoder.Controllers
 {
-    //[Route("api/[controller]")]
+ //   [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class MapsController : ControllerBase
     {
-        private IRepositoryMaps repositoryMaps;
-        public MapsController(IRepositoryMaps rep) => repositoryMaps = rep;
+        private IProcoderDB procoderDB;
 
-        ////GET/users/ID/maps
-        ////get all maps from concrete user
-        [Route("api/[controller]/{id:int}")]
-        [HttpGet]
-        public JsonResult GetMapsList(int id)
+        public MapsController(IProcoderDB procoderDB)
         {
-            return repositoryMaps.GetAllMyMaps(id);
+            this.procoderDB = procoderDB;
         }
 
-
-        ////GET/users/ID/maps/ID
-        ////get concrete map from concrete user
-        [Route("api/user/maps/{mapId:int}")]
-        [HttpGet]
-        public ActionResult<IEnumerable<IMapForList>> GetMap(int mapId)
+        [HttpPost]
+        [HttpPost("putmap")]
+        public IActionResult PutMap([FromBody]string jsonFile)
         {
-            return repositoryMaps.GetConcreteMap(mapId);
+            if(jsonFile == string.Empty || jsonFile == null)
+                return Ok(new { OK = "No" });
+
+            Map info = JsonConvert.DeserializeObject<Map>(jsonFile);
+            info.LastEdit = DateTime.Now;
+
+            Console.WriteLine(info.Name);
+            return Ok(new {OK="ok"});
         }
-
-
 
     }
 }

@@ -11,10 +11,10 @@ using Microsoft.Extensions.Caching;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Procoder.Services.Security;
 using Procoder.Configurations;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Newtonsoft.Json;
+using Procoder.Repositories;
 
 namespace Procoder
 {
@@ -34,8 +34,9 @@ namespace Procoder
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc().AddJsonOptions(opts => opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize);
 
-            services.AddDbContext<ProcederContext>(options =>
+            services.AddDbContext<ProcoderContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IProcoderDB, ProcoderDB>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -60,8 +61,6 @@ namespace Procoder
                 };
             });
 
-            services.AddScoped<IAuthenticateService, AuthenticateService>();
-
             //services.AddSpaStaticFiles(configuration =>
             //{
             //    configuration.RootPath = "client/build";
@@ -79,15 +78,16 @@ namespace Procoder
             app.UseAuthentication();
             app.UseMvc();
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+               // The default HSTS value is 30 days.You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+                app.UseHttpsRedirection();
+            }
 
             //app.UseHttpsRedirection();
             //app.UseStaticFiles();

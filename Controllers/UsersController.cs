@@ -6,7 +6,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Procoder.Models;
-using Procoder.Services.Security;
+using Procoder.Controllers.Tools;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.Extensions.Options;
+using Procoder.Configurations;
+using Procoder.Repositories;
+using Procoder.ModelsDto;
 
 namespace Procoder.Controllers
 {
@@ -15,54 +23,40 @@ namespace Procoder.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IAuthenticateService authenticateService;
+        private readonly AppSettings appSettings;
+        private readonly IProcoderDB procoderDB;
 
-        public UsersController(IAuthenticateService authenticateService)
+        public UsersController(IOptions<AppSettings> appSettings, IProcoderDB procoderDB)
         {
-            this.authenticateService = authenticateService;
+            this.procoderDB = procoderDB;
+            this.appSettings = appSettings.Value;
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User userParam)
+        public ActionResult<User> Authenticate(Credential credential)
         {
-<<<<<<< HEAD
-            var user = authenticateService.Authenticate(userParam.Login, userParam.Password);
-=======
-            return repositoryUsers.GetUser(id);
-        }
-
-        //POST/users
-        //add new user
-        [Route("api/[controller]")]
-        [HttpPost]
-        public ActionResult<bool> AddUser([FromBody] User value)
-        {
-            return repositoryUsers.AddNewUser();
-        }
-
-        //POST/users/ID/maps/ID ??????
-        //add new map from concrete user
-        //https://metanit.com/sharp/entityframework/6.7.php to use stored procedure
-        //[Route("api/users/{id}/maps/id")]
-        //[HttpPost]
-        //public bool AddUserMap(int userId, [FromBody] string value)
-        //{
-
-        //}
-
-        //PUT/users/ID
-        //edit concrete user
-        //[Route("api/users/{id:int}")]
-        //[HttpPut]
-        //public bool EditUser(int id, [FromBody] User value)
-        //{
->>>>>>> origin/dev_back_tests
+            User user = procoderDB.UserRepository.Authenticate(credential.Email, credential.Password);
 
             if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            {
+                return BadRequest(new { message = "Username or password is wrong" });
+            }
 
-            return Ok(user);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return Ok(new { Token = token, Name = user.Name });        
         }
     }
 }
