@@ -1,0 +1,47 @@
+#modal-root {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+.modal--open {
+    display: block !important;
+}
+
+.modal {
+    position: absolute;
+    z-index: 1001;
+    width: 50%;
+    left: 25%;
+    top: 50px;
+    bottom: 50px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 50px 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+
+
+    &__header {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+
+        .close-icon {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+        }
+    }
+    &__body {
+        display: block;
+        overflow: hidden;
+        position: relative;
+    }
+}

@@ -16,8 +16,10 @@ class TreeContainer extends Component {
 
         return <Tree 
                     treeName={this.props.treeName}
-                    data={this.props.nodes}
-                    addNode={this.props.addNode} />;
+                    nodes={this.props.nodes}
+                    addNode={this.props.addNode}
+                    removeNode={this.props.removeNode}
+                    updateNode={this.props.updateNode} />;
 	}
 }
 

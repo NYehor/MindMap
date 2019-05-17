@@ -5,5 +5,4 @@ export default {
     category: null,
     status: statuses[0],
     nodes: [],
-    largeSnippets: []
 }

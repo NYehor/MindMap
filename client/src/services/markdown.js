@@ -11,9 +11,7 @@ hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss'));
 hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
 hljs.registerLanguage('yaml', require('highlight.js/lib/languages/yaml'));
 
-const mdHtml = markdown();
-
-const hljs_options = {
+export const md = markdown({
 	html: false,
 	xhtmlOut: false,
 	breaks: true,
@@ -22,8 +20,7 @@ const hljs_options = {
     typographer: true,
     highlight(str, lang) {
 
-        var esc = mdHtml.utils.escapeHtml;
-        console.log(esc);
+        var esc = md.utils.escapeHtml;
       
         try {
             if (lang && lang !== 'auto' && hljs.getLanguage(lang)) {  
@@ -38,11 +35,18 @@ const hljs_options = {
         catch (__) {/**/
         }
       
-        return '<pre class="hljs"><code>' + esc(str) + '</code></pre>';
-    
+        return '<pre class="hljs"><code>' + esc(str) + '</code></pre>';    
     }
+})
+.use(require('markdown-it-container'), 'collapsed-code', { marker: '*'});
+
+
+export const sanitize = (source) => {
+    return source.replace(/<br>/g, '\n')
+                 .replace(/&gt;/g, '>')
+                 .replace(/&lt;/g, '<')
+                 .replace(/&amp;/g, '&')
+                 .replace(/&nbsp;/g, ' ');
 };
 
-
-export default markdown(hljs_options);
   

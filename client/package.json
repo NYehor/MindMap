@@ -7,13 +7,15 @@
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "prettier": "./node_modules/.bin/eslint --fix ./",
-    "dev": "webpack-dev-server --config ./webpack.config.dev.js --mode development --hot --open"
+    "dev": "webpack-dev-server --config ./webpack.config.dev.js --mode development --hot --open",
+    "build": "webpack --config ./webpack.config.build.js --mode production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
@@ -27,14 +29,19 @@
     "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.17.0",
+    "react-svg-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "babel-eslint": "^10.0.1",
+    "core-js": "^2.5.7",
     "d3": "^5.9.2",
-    "highlightjs": "^9.12.0",
+    "highlight.js": "^9.15.6",
     "markdown-it": "^8.4.2",
+    "markdown-it-container": "^2.0.0",
+    "perfect-scrollbar": "^1.4.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
@@ -42,18 +49,8 @@
     "react-scripts": "^3.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.2",
-    "redux-thunk": "^2.3.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "redux-thunk": "^2.3.0",
+    "sanitize-html": "^1.20.1",
+    "uniqid": "^5.0.3"
   }
 }
