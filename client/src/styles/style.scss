@@ -1,6 +1,21 @@
+/* base */
+@import './sass/reset';
+
+/* import css libraries */
 @import './css/highlight.css';
 @import './css/perfect-scrollbar.css';
 
-@import './sass/reset';
+/* variables */
+@import './sass/variables/color-pallete';
+@import './sass/variables/font';
+
+/* shared */
+@import './sass/shared/logo';
+@import './sass/shared/header';
+@import './sass/shared/footer';
+
+/* components */
 @import './sass/tree';
 @import './sass/snippet-modal';
+
+@import './sass/layout';
