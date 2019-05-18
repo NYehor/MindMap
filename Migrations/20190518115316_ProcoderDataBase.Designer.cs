@@ -10,7 +10,7 @@ using Procoder;
 namespace Procoder.Migrations
 {
     [DbContext(typeof(ProcoderContext))]
-    [Migration("20190517185105_ProcoderDataBase")]
+    [Migration("20190518115316_ProcoderDataBase")]
     partial class ProcoderDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,7 @@ namespace Procoder.Migrations
 
                     b.HasIndex("NodesId");
 
-                    b.ToTable("Snippets");
+                    b.ToTable("snippets");
                 });
 
             modelBuilder.Entity("Procoder.Models.User", b =>
@@ -102,8 +102,14 @@ namespace Procoder.Migrations
                     b.Property<string>("AvatarImg")
                         .HasColumnName("avatar_img");
 
+                    b.Property<DateTime>("DateRegistration")
+                        .HasColumnName("date_registration");
+
                     b.Property<string>("Email")
                         .HasColumnName("user_mail");
+
+                    b.Property<bool>("IsEmailValid")
+                        .HasColumnName("is_email_valid");
 
                     b.Property<string>("LastName")
                         .HasColumnName("last_name");

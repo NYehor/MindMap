@@ -37,7 +37,9 @@ namespace Procoder.Migrations
                     last_name = table.Column<string>(nullable: true),
                     avatar_img = table.Column<string>(nullable: true),
                     user_mail = table.Column<string>(nullable: true),
-                    password = table.Column<string>(nullable: true)
+                    password = table.Column<string>(nullable: true),
+                    date_registration = table.Column<DateTime>(nullable: false),
+                    is_email_valid = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,7 +67,7 @@ namespace Procoder.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Snippets",
+                name: "snippets",
                 columns: table => new
                 {
                     id = table.Column<string>(nullable: false),
@@ -74,9 +76,9 @@ namespace Procoder.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Snippets", x => x.id);
+                    table.PrimaryKey("PK_snippets", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Snippets_node_data_NodesId",
+                        name: "FK_snippets_node_data_NodesId",
                         column: x => x.NodesId,
                         principalTable: "node_data",
                         principalColumn: "node_id",
@@ -89,15 +91,15 @@ namespace Procoder.Migrations
                 column: "MapId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Snippets_NodesId",
-                table: "Snippets",
+                name: "IX_snippets_NodesId",
+                table: "snippets",
                 column: "NodesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Snippets");
+                name: "snippets");
 
             migrationBuilder.DropTable(
                 name: "users");

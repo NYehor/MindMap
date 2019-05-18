@@ -22,5 +22,11 @@ namespace Procoder.Models
         [Column("password")]
         public string Password { get; set; }
         //public List<int> mapsId { get; set; }
+
+        [Column("date_registration")]
+        public DateTime DateRegistration { get; set; }
+
+        [Column("is_email_valid")]
+        public bool IsEmailValid { get; set; }
     }
 }

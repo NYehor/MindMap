@@ -19,7 +19,7 @@ namespace Procoder.Repositories
             }
 
             var user = Context.Users.FirstOrDefault(e => e.Email == email);
-            if (!(user != null && user.Password == password))
+            if (user != null && PasswordHasher.Verify(password, user.Password))
             {
                 return null;
             }

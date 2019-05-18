@@ -34,29 +34,26 @@ namespace Procoder.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
+        [Produces("application/json")]
         public ActionResult<User> Authenticate(Credential credential)
         {
             User user = procoderDB.UserRepository.Authenticate(credential.Email, credential.Password);
 
-            if (user == null)
+            if (user == null || user.IsEmailValid == false)
             {
                 return BadRequest(new { message = "Username or password is wrong" });
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserId.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            string token = TokenFactory.Get(user.Email.ToString(), appSettings.Secret);
 
-            return Ok(new { Token = token, Name = user.Name });        
+            return Ok(new { Token = token });        
+        }
+
+        [HttpPost("test")]
+        [Produces("application/json")]
+        public ActionResult Test()
+        {
+            return Ok("It's Ok)");
         }
     }
 }

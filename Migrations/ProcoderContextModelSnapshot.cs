@@ -87,7 +87,7 @@ namespace Procoder.Migrations
 
                     b.HasIndex("NodesId");
 
-                    b.ToTable("Snippets");
+                    b.ToTable("snippets");
                 });
 
             modelBuilder.Entity("Procoder.Models.User", b =>
@@ -100,8 +100,14 @@ namespace Procoder.Migrations
                     b.Property<string>("AvatarImg")
                         .HasColumnName("avatar_img");
 
+                    b.Property<DateTime>("DateRegistration")
+                        .HasColumnName("date_registration");
+
                     b.Property<string>("Email")
                         .HasColumnName("user_mail");
+
+                    b.Property<bool>("IsEmailValid")
+                        .HasColumnName("is_email_valid");
 
                     b.Property<string>("LastName")
                         .HasColumnName("last_name");

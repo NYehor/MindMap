@@ -25,6 +25,7 @@ namespace Procoder
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<Map>().ToTable("maps");
             modelBuilder.Entity<Nodes>().ToTable("node_data");
+            modelBuilder.Entity<Snippet>().ToTable("snippets");
         }
     }
 }

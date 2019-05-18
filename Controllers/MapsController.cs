@@ -11,7 +11,7 @@ using Procoder.Repositories;
 
 namespace Procoder.Controllers
 {
- //   [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MapsController : ControllerBase

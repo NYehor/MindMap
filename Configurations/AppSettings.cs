@@ -10,8 +10,13 @@ namespace Procoder.Configurations
         string Secret { get; set; }
     }
 
-    public class AppSettings: IAppSettings
+    public class AppSettings : IAppSettings
     {
         public string Secret { get; set; }
+        public STMPConnection STMPConnection { get; set; }
+        public string Domain { get; set; }
+        public string GoogleClientId { get; set; }
+        public string GoogleClientSecret { get; set; }
+        public string JwtEmailEncryption { get; set; }
     }
 }
