@@ -50,7 +50,7 @@ module.exports = {
   },
   devServer: {
     port: 44301,
-    contentBase: path.resolve(__dirname, './'),
+    contentBase: path.resolve(__dirname, './build'),
     historyApiFallback: true
   },
   devtool: 'source-map'

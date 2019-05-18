@@ -34,10 +34,15 @@ body {
 	line-height: 1;
 }
 
-ol, ul {
-	list-style: none;
-}
+// ol, ul {
+// 	list-style: none;
+// }
 
+
+button {
+	background: none;
+	border: none;
+}
 blockquote, q {
 	quotes: none;
 }

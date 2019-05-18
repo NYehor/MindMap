@@ -10,12 +10,16 @@
 @import './sass/variables/font';
 
 /* shared */
-@import './sass/shared/logo';
 @import './sass/shared/header';
 @import './sass/shared/footer';
 
+/* pages */
+@import './sass/pages/board';
+@import './sass/pages/map';
+
 /* components */
-@import './sass/tree';
-@import './sass/snippet-modal';
+@import './sass/components/treePlaceholder';
+@import './sass/components/tree';
+@import './sass/components/snippet-modal';
 
 @import './sass/layout';

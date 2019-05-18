@@ -9,8 +9,10 @@ import App from './components/App';
 const store = configureStore();
 
 ReactDOM.render(
+    <BrowserRouter>
         <Provider store={store}>
             <App />
-        </Provider>,
+        </Provider>
+    </BrowserRouter>,
     document.getElementById('procoder-app')
 );
