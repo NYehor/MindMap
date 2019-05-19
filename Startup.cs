@@ -44,12 +44,12 @@ namespace Procoder
             var appSettings = appSettingsSection.Get<AppSettings>();
 
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x => 
+            services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x=>
+            .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
@@ -61,11 +61,6 @@ namespace Procoder
                     ValidateAudience = false
                 };
             });
-
-            //services.AddSpaStaticFiles(configuration =>
-            //{
-            //    configuration.RootPath = "client/build";
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,24 +69,25 @@ namespace Procoder
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-                app.UseHttpsRedirection();
-            }
-
-            app.UseCors(x => x
+                app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+                app.UseHttpsRedirection();
+            }
+
 
             app.UseAuthentication();
             app.UseMvc();
 
-            //app.UseStaticFiles();
-            //app.UseSpaStaticFiles();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             //app.UseSpa(spa =>
             //{
@@ -99,7 +95,7 @@ namespace Procoder
 
             //    if (env.IsDevelopment())
             //    {
-            
+            //       spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
             //    }
             //});
         }

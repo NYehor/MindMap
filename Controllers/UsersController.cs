@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using Procoder.Configurations;
 using Procoder.Repositories;
 using Procoder.ModelsDto;
+using Google.Apis.Auth;
 
 namespace Procoder.Controllers
 {
@@ -47,6 +48,38 @@ namespace Procoder.Controllers
             string token = TokenFactory.Get(user.Email.ToString(), appSettings.Secret);
 
             return Ok(new { Token = token });        
+        }
+
+        [AllowAnonymous]
+        [HttpPost("sign-in")]
+        public async Task<IActionResult> GoogleSignIn(string tokenId)
+        {
+            try
+            {
+                var payload = GoogleJsonWebSignature.ValidateAsync(tokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
+
+                var user = procoderDB.UserRepository.GetByEmail(payload.Email);
+                if (user == null)
+                {
+                    user = new User()
+                    {
+                        Email = payload.Email,
+                        DateRegistration = DateTime.Now,
+                        Name = payload.Name,
+                        IsEmailValid = true
+                    };
+                    procoderDB.UserRepository.Create(user);
+                    procoderDB.Save();
+                }
+                string token = TokenFactory.Get(user.Email.ToString(), appSettings.Secret);
+
+                return Ok(new { Token = token });
+            }
+            catch (Exception ex)
+            {
+                BadRequest(ex.Message);
+            }
+            return BadRequest();
         }
 
         [HttpPost("test")]
