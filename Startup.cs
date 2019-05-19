@@ -32,7 +32,11 @@ namespace Procoder
         {
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddMvc().AddJsonOptions(opts => opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize);
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "client/build";
+            });
+            //services.AddMvc().AddJsonOptions(opts => opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize);
 
             services.AddDbContext<ProcoderContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -70,6 +74,7 @@ namespace Procoder
             {
                 app.UseDeveloperExceptionPage();
                 app.UseCors(x => x
+                .WithOrigins("http://localhost:8080")
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -89,15 +94,15 @@ namespace Procoder
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "client";
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "client";
 
-            //    if (env.IsDevelopment())
-            //    {
-            //       spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-            //    }
-            //});
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+                }
+            });
         }
     }
 }
