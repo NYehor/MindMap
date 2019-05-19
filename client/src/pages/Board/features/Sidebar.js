@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
         </nav>
 
         {showModal ? <Modal onClose={this.toggeleModal} 
-                            content={<MapCreation />}
+                            content={MapCreation}
                             title={<h3>Map Creation</h3>} />                    
                     : null
         }

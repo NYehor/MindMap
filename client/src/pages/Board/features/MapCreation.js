@@ -1,25 +1,15 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as treeActions from '../../../store/actions/tree';
 import Select from 'react-select';
 
 
-const caregoryOptions = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-];
-
-
-export default class MapCreation extends Component {
+class MapCreation extends Component {
 
   state = {
-    categoryName: null,
-    mapName: null
+    categoryName: '',
+    mapName: ''
   }
 
   handleSelect = ({value}) => {
@@ -36,9 +26,18 @@ export default class MapCreation extends Component {
 
   onMapCreation = (e) => {
     e.preventDefault();
+    const { mapName, categoryName } = this.state;
+    this.props.addTree(mapName, categoryName);
+    this.props.onCloseModal();
+    this.setState({
+      categoryName: '',
+      mapName: ''  
+    });
   }
 
   render() {
+
+    const { caregoryOptions } = this.props;
 
      return (
       <div className='map-creation'>
@@ -50,7 +49,7 @@ export default class MapCreation extends Component {
             <Fragment>
               <Select
                 className='category-select'
-                placeholder='Select category'
+                placeholder='Select'
                 maxMenuHeight={150}
                 onChange={this.handleSelect}
                 options={caregoryOptions}
@@ -60,15 +59,17 @@ export default class MapCreation extends Component {
         }
 
         <input 
-          placeholder='New category'
+          placeholder='Create'
           name='categoryName' 
+          value={this.state.categoryName}
           className='map-creation__category map-creation__input'
           onChange={this.onInputChange} />
 
         <label>Map name</label>        
         <input 
-          placeholder='Name'
+          placeholder='Create'
           name='mapName'  
+          value={this.state.mapName}
           className='map-creation__name map-creation__input' 
           onChange={this.onInputChange} />
 
@@ -78,3 +79,22 @@ export default class MapCreation extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(treeActions, dispatch);
+}
+
+function mapStateToProps(state) {
+  const categories = state.treeList.length !== 0 ?
+                    [...new Set(state.treeList.map(tree => tree.category))]
+                    : [];
+
+  const options = [...categories || state.tree.category];
+
+	return { 
+      caregoryOptions: options.map(i => ({value: i, label: i}))
+  };
+}
+
+export default connect(mapStateToProps,	mapDispatchToProps)(MapCreation);
+

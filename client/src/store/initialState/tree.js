@@ -1,6 +1,6 @@
 const status = ['own', 'sharable', 'trash'];
 
-export default {
+const tree = {
     id: '',
     name: '',
     category: '',
@@ -13,4 +13,6 @@ export default {
             content: ''       
         }        
     ]
-}
+};
+
+export default tree;

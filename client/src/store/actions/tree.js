@@ -1,7 +1,7 @@
 import uniqid from 'uniqid';
 import * as types from '../actionTypes';
 import { getNodeDescendants } from '../../services/treeTraverse';
-
+import initialState from '../initialState';
 
 /**
  * 
@@ -72,5 +72,17 @@ export function updateNode(node, content) {
             type: types.UPDATE_NODE,
             payload: updatedNode
         });
+    }
+}
+
+export function addTree(name, category) {
+    return {
+        type: types.CREATE_TREE,
+        payload: {
+            ...initialState.tree,
+            id: uniqid(),
+            name,
+            category
+        }
     }
 }

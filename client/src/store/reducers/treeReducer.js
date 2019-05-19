@@ -1,34 +1,20 @@
-import initialState from '../initialState/tree';
+import initialState from '../initialState/';
+import nodesReducer from './nodesReducer';
 import * as types from '../actionTypes';
 
-export default function treeReducer(state = initialState, action) {
-    switch (action.type) {
-        case types.ADD_NODE:
-            return {
-                ...state,
-                nodes: [...state.nodes, action.payload]
-            }
-    
-        case types.REMOVE_NODE:
-            return {
-                ...state,
-                nodes: state.nodes.filter(node => node.id !== action.payload.id)
-            }
+export default function treeReducer(state = initialState.tree, action) {
 
-        case types.UPDATE_NODE:
-            return {
-                ...state,
-                nodes: state.nodes.map(node => {
-                            if (node.id !== action.payload.id) {
-                                return node;
-                            }
-                            else {
-                                return action.payload
-                            }
-                        })
-            }
+    console.log(state);
+
+    switch (action.type) {
+
+        case types.RESET_TREE:
+            return state;
 
         default:
-            return state;
+            return {
+                ...state,
+                nodes: nodesReducer(state.nodes, action)
+            }
     }
 }
