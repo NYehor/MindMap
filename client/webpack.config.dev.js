@@ -26,10 +26,6 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
         test: /\.svg$/,
         use: [
           {
@@ -49,7 +45,7 @@ module.exports = {
     modules: [path.resolve('./node_modules')]
   },
   devServer: {
-      port: 44301,
+    port: 8080,
     contentBase: path.resolve(__dirname, './'),
     historyApiFallback: true
   },
