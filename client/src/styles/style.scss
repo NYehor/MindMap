@@ -1,6 +1,27 @@
+/* base */
+@import './sass/reset';
+
+/* import css libraries */
 @import './css/highlight.css';
 @import './css/perfect-scrollbar.css';
 
-@import './sass/reset';
-@import './sass/tree';
-@import './sass/snippet-modal';
+/* variables */
+@import './sass/variables/color-pallete';
+@import './sass/variables/font';
+
+/* shared */
+@import './sass/shared/header';
+@import './sass/shared/footer';
+@import './sass/shared/modal';
+
+/* pages */
+@import './sass/pages/board';
+@import './sass/pages/map';
+
+/* components */
+@import './sass/components/tree';
+@import './sass/components/snippet-modal';
+@import './sass/components/map-creation';
+@import './sass//components/maps-list';
+
+@import './sass/layout';

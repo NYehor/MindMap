@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './build'),
     filename: './js/[name].js',
-    publicPath: ''
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -49,8 +49,8 @@ module.exports = {
     modules: [path.resolve('./node_modules')]
   },
   devServer: {
-    port: 8080,
-    contentBase: path.resolve(__dirname, './'),
+    port: 44301,
+    contentBase: path.resolve(__dirname, './build'),
     historyApiFallback: true
   },
   devtool: 'source-map'

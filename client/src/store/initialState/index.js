@@ -1,7 +1,9 @@
 import user from './user';
+import tree from './tree';
 
 export default {
     user,
-    selectedNode,
-    tree
+    treeList: [],
+    tree,
+    selectedTree: null
 };

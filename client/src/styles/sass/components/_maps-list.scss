@@ -1,0 +1,95 @@
+.maps-list {
+    margin-bottom: 40px;
+    position: relative;
+
+    &__category {
+        margin: 0 20px;
+        font: 700 30px $sans-serif;
+        color: $brand-dark-color;
+    }
+    &__list {
+        list-style: none;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    &__item {
+        margin: 15px;
+        display: block;
+        width: 270px;
+        height: 200px;
+        border: 4px solid $accent-color;
+        border-radius: 10px;
+        background: $accent-color;
+        position: relative;
+        text-align: center;
+        background: #ccf1e6;
+
+        svg{
+            transform-origin: top center;
+            transform: scale(.7);
+
+            circle {
+                display: none;
+            }
+            path {
+                fill: #fff;
+                stroke: #fff;
+            }
+        }
+    }
+    &__name {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px 15px;
+        text-align: left;
+        background: $accent-color;
+
+        span {
+            background: none;
+            border: none;
+            font: 700 16px $sans-serif;
+            color: $brand-dark-color;
+        }
+    }
+
+    .context-menu--btn {
+        cursor: pointer;
+        display: flex;
+        height: 20px;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0 5px;
+
+        span {
+            border-radius: 50%;
+            background: $brand-dark-color;
+            width: 4px;
+            height: 4px;
+        }
+    }
+}
+
+.context-menu {
+
+    ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        list-style: none;
+        border: 3px solid $brand-coral-color;
+        border-radius: 5px;
+
+        li {
+            padding: 10px;
+            font: 700 16px $sans-serif;
+            color: $brand-coral-color;
+            background:#ffe0e0;
+        }
+    }
+}

@@ -4,13 +4,13 @@ let scrollbar;
 const modalRoot = document.querySelector('#modal-root');
 
 const modal = document.createElement('div');
-modal.setAttribute('class', 'modal');
+modal.setAttribute('class', 'snippet-modal');
 
 const modalBody = document.createElement('div');
-modalBody.setAttribute('class', 'modal__body');
+modalBody.setAttribute('class', 'snippet-modal__body');
 
 const modalHeader = document.createElement('div');
-modalHeader.setAttribute('class', 'modal__header');
+modalHeader.setAttribute('class', 'snippet-modal__header');
 modalHeader.innerHTML = `<svg class="close-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                               x="0px" y="0px" viewBox="0 0 50 50" xml:space="preserve">
                                     <circle style="fill:#D4D4D4;" cx="25" cy="25" r="25"/>
@@ -21,7 +21,7 @@ modal.appendChild(modalHeader);
 
 
 modalHeader.querySelector('.close-icon').addEventListener('click', (e) => {
-    modalRoot.classList.remove('modal--open');
+    modalRoot.classList.remove('snippet-modal--open');
     modalRoot.removeChild(modal);
     modal.removeChild(modalBody);
     scrollbar = null;
@@ -32,7 +32,7 @@ modalHeader.querySelector('.close-icon').addEventListener('click', (e) => {
 
 const SnippetModal = {
     init(element) {
-        modalRoot.classList.add('modal--open');
+        modalRoot.classList.add('snippet-modal--open');
         modalRoot.appendChild(modal);
         modal.appendChild(modalBody);
         modalBody.appendChild(element);    

@@ -1,0 +1,80 @@
+.board-wrapper {
+
+    display: flex;
+    padding: 60px 30px;
+    // background: #f7f6ed;
+    // background: #fbf3f3;
+
+    .sidebars {
+    }
+
+    .content {
+        position: relative;
+        margin: 0 50px;
+        width: calc(100% - 300px);        
+    }
+
+    .btn-map-creation {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        padding: 10px 25px;
+        font: 700 20px $sans-serif;
+        color: $brand-dark-color;
+        border: 3px solid $brand-dark-color;
+        background: $brand-lime-color;
+        border-radius: 10px;
+
+        svg {
+            width: 25px;
+            height: 25px;
+            margin-right: 7px;
+            path {
+                fill: $brand-dark-color;
+            }
+        }
+
+    }
+}
+
+.board-nav {
+    margin: 30px 0 0 0;
+    list-style: none;
+    border: 3px solid $brand-dark-color;
+    border-radius: 10px;
+    background: $accent-color;
+
+    &__item {
+        font: 700 18px $sans-serif;
+
+        a {
+            color:  $brand-dark-color;
+            display: block;
+            padding: 10px 30px;
+            text-decoration: none;
+
+            &:hover {
+                color: #fff;
+            }
+            &.active-board-link {
+                background: $brand-dark-color;
+                color: $accent-color;
+            }
+        }
+    }
+}
+
+.map-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 30px 30px 30px;
+
+    h5 {
+        font: 700 25px $sans-serif;
+        text-align: center;
+        color: #ababab;
+        margin-top: 15px;
+    }
+}

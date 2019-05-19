@@ -1,8 +1,18 @@
-const statuses = ['own', 'sharable', 'trash'];
+const status = ['own', 'sharable', 'trash'];
 
-export default {
-    name: 'ES6',
-    category: null,
-    status: statuses[0],
-    nodes: [],
-}
+const tree = {
+    id: '',
+    name: '',
+    category: '',
+    status: status[0],
+    nodes: [
+        {
+            id: '',
+            parentID: '',
+            name: '',
+            content: ''       
+        }        
+    ]
+};
+
+export default tree;
