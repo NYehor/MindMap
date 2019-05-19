@@ -36,7 +36,6 @@ namespace Procoder
             {
                 configuration.RootPath = "client/build";
             });
-            //services.AddMvc().AddJsonOptions(opts => opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize);
 
             services.AddDbContext<ProcoderContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

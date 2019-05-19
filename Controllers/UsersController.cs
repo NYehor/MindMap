@@ -52,7 +52,7 @@ namespace Procoder.Controllers
 
         [AllowAnonymous]
         [HttpPost("sign-in")]
-        public async Task<IActionResult> GoogleSignIn(string tokenId)
+        public IActionResult GoogleSignIn(string tokenId)
         {
             try
             {

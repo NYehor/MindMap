@@ -9,24 +9,23 @@ namespace Procoder.Models
     [Serializable]
     public class User
     {
-        [Column("id")]
-        public int UserId { get; set; }
-        [Column("user_name")]
-        public string Name { get; set; }
-        [Column("last_name")]
-        public string LastName { get; set; }
-        [Column("avatar_img")]
-        public string AvatarImg { get; set; }
-        [Column("user_mail")]
-        public string Email { get; set; }
-        [Column("password")]
-        public string Password { get; set; }
-        //public List<int> mapsId { get; set; }
 
-        [Column("date_registration")]
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string LastName { get; set; }
+
+        public string AvatarImg { get; set; }
+
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+        public List<Map> Maps { get; set; }
+
         public DateTime DateRegistration { get; set; }
 
-        [Column("is_email_valid")]
         public bool IsEmailValid { get; set; }
     }
 }

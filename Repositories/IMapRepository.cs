@@ -11,5 +11,6 @@ namespace Procoder.Repositories
         Map GetById(int id);
         void Delete(int id);
         void Delete(Map map);
+        bool IsExist(int Id);
     }
 }

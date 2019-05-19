@@ -7,7 +7,7 @@ using Procoder.Models;
 
 namespace Procoder.Repositories
 {
-    public class NodeRepository: GenericRepository<Nodes>, INodeRepository
+    public class NodeRepository: GenericRepository<Node>, INodeRepository
     {
         public NodeRepository(ProcoderContext context) : base(context) { }
 
@@ -16,14 +16,14 @@ namespace Procoder.Repositories
             throw new NotImplementedException();
         }
 
-        public Nodes GetById(string id, string parentId)
+        public Node GetById(string id, string parentId)
         {
-            return Context.Set<Nodes>()
+            return Context.Set<Node>()
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
         }
 
-        public Nodes GetById(int id)
+        public Node GetById(int id)
         {
             throw new NotImplementedException();
         }

@@ -30,6 +30,7 @@ namespace Procoder.Repositories
         public User GetByEmail(string email)
         {
             return Context.Set<User>()
+                .Include(t => t.Maps)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Email == email);
         }
@@ -38,12 +39,20 @@ namespace Procoder.Repositories
         {
             return Context.Set<User>()
                 .AsNoTracking()
-                .FirstOrDefault(e => e.UserId == id);
+                .FirstOrDefault(e => e.Id == id);
         }
 
         public bool IsExist(string email)
         {
             if (GetByEmail(email) != null)
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsExist(int id)
+        {
+            if (GetById(id) != null)
                 return true;
             else
                 return false;

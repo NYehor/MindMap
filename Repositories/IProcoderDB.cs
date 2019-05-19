@@ -10,7 +10,6 @@ namespace Procoder.Repositories
         IUserRepository UserRepository { get; }
         IMapRepository MapRepository { get; }
         INodeRepository NodeRepository { get; }
-        ISnippetRepository SnippetRepository { get; }
         void Save();
     }
 }

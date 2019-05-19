@@ -6,9 +6,9 @@ using Procoder.Models;
 
 namespace Procoder.Repositories
 {
-    public interface INodeRepository: IGenericRepository<Nodes>
+    public interface INodeRepository: IGenericRepository<Node>
     {
-        Nodes GetById(int id);
+        Node GetById(int id);
         void Delete(int id);
     }
 }

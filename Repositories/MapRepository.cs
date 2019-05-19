@@ -25,26 +25,28 @@ namespace Procoder.Repositories
         public Map GetById(int id)
         {
             return Context.Set<Map>()
+                .Include(t => t.Nodes)
                 .AsNoTracking()
                 .FirstOrDefault();
         }
 
-        public JsonResult GetAllMyMaps(int userId)
+        public List<Map> GetAllMaps(int userId)
         {
-            IEnumerable<object> map = Context.Maps
-                 .OrderBy(c => c.Id)
-                 .Where(d => d.userId == userId)
-                 .Select(p => new { map = p.Name, category = p.Category, create = p.CreateData, edit = p.LastEdit }
-                 )
-                 .AsEnumerable()
-                 .Select(an => new
-                 {
-                     name = an.map,
-                     category = an.category,
-                     CreateData = an.create,
-                     LastEdit = an.edit
-                 });
-            return new JsonResult(map);
+            List<Map> maps = Context.Maps
+                .Include(t => t.Nodes)
+                .OrderBy(c => c.Id)
+                .Where(d => d.UserId == userId)
+                .ToList();
+
+            return maps;
+        }
+
+        public bool IsExist(int Id)
+        {
+            if (GetById(Id) != null)
+                return true;
+            else
+                return false;
         }
     }
 }

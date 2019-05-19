@@ -12,12 +12,10 @@ namespace Procoder.Repositories
         private IUserRepository userRepository;
         private IMapRepository mapRepository;
         private INodeRepository nodeRepository; 
-        private ISnippetRepository snippetRepository;
 
         public IUserRepository UserRepository { get => userRepository; }
         public IMapRepository MapRepository { get => mapRepository; }
         public INodeRepository NodeRepository { get => nodeRepository; }
-        public ISnippetRepository SnippetRepository { get => snippetRepository; }
 
 
         public ProcoderDB(ProcoderContext context)
@@ -25,7 +23,6 @@ namespace Procoder.Repositories
             this.context = context;
             userRepository = new UserRepository(context);
             mapRepository = new MapRepository(context);
-            snippetRepository = new SnippetRepository(context);
             nodeRepository = new NodeRepository(context);
         }
 

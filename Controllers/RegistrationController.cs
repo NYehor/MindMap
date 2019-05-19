@@ -51,7 +51,7 @@ namespace Procoder.Controllers
             procoderDB.UserRepository.Create(newUser);
             procoderDB.Save();
 
-            string link = appSettings.Domain + "/api/registration/" + credential.Email + "/" + newUser.UserId;
+            string link = appSettings.Domain + "/api/registration/" + credential.Email + "/" + newUser.Id;
 
             IEmailService emailService = new EmailService(appSettings);
             int timeout = appSettings.STMPConnection.TimeOut;
@@ -76,7 +76,7 @@ namespace Procoder.Controllers
 
             User user = procoderDB.UserRepository.GetByEmail(email);
 
-            if (user.UserId == id)
+            if (user.Id == id)
             {
                 user.IsEmailValid = true;
                 procoderDB.UserRepository.Update(user);

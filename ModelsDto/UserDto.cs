@@ -12,5 +12,17 @@ namespace Procoder.ModelsDto
         public string LastName { get; set; }
         public string Email { get; set; }
         public string AvatarImg { get; set; }
+
+
+        public int UserId { get; set; }
+        public string Name { get; set; }
+
+
+        //public List<int> mapsId { get; set; }
+
+
+        public DateTime DateRegistration { get; set; }
+
+
     }
 }
