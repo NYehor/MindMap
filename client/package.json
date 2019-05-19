@@ -41,6 +41,7 @@
     "d3": "^5.9.2",
     "highlight.js": "^9.15.6",
     "markdown-it": "^8.4.2",
+    "markdown-it-container": "^2.0.0",
     "perfect-scrollbar": "^1.4.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
