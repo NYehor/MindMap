@@ -9,13 +9,10 @@ import Trash from './features/Trash';
 export default class Board extends Component {
   
   render() {
+
     const { match, location, history } = this.props;
     const path = match.path;
 
-    console.log('location ', location);
-    console.log('match', match);
-    console.log('history', history);
-    console.log('-----------------------')
     return (
       <div className='board-wrapper'>
 
