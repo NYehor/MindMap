@@ -69,7 +69,6 @@ namespace Procoder.Controllers
         }
 
         [HttpGet("{email}/{id}")]
-
         [Produces("application/json")]
         public IActionResult ConfirmEmail(string email, int id)
         {
