@@ -58,9 +58,13 @@ namespace Procoder.Controllers
 
             Map map = JsonConvert.DeserializeObject<Map>(jsFile);
             map.LastEdit = DateTime.Now;
+            map.UserId = user_id;
 
-            if (!procoderDB.MapRepository.IsExist(map.Id))
+            if (procoderDB.MapRepository.IsExist(map.Id))
+            {
                 procoderDB.MapRepository.Update(map);
+                procoderDB.Save();
+            }
             else
                 BadRequest("Map is not exist");
 
@@ -71,7 +75,8 @@ namespace Procoder.Controllers
         [HttpDelete("{map_id}")]
         public IActionResult Delete(int user_id, int mup_id)
         {
-            procoderDB.MapRepository.Delete(mup_id);
+            procoderDB.MapRepository.Delete(user_id, mup_id);
+            procoderDB.Save();
             return Ok();
         }
 

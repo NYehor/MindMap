@@ -12,9 +12,17 @@ namespace Procoder.Repositories
     {
         public MapRepository(ProcoderContext context) : base(context) { }
 
-        public void Delete(int mup_id)
+        public void Delete(int user_id, int mup_id)
         {
-            Context.Set<Map>().Remove(GetById(mup_id));
+            var user = Context.Users.Include(p => p.Maps)
+                .SingleOrDefault(p => p.Id == user_id);
+
+            foreach (var map in user.Maps.ToList())
+            {
+                if (map.UserId == mup_id)
+                   if(user.Maps.Remove(map))
+                        Context.Users.Update(user);
+            }
         }
 
         public void Delete(Map map)
