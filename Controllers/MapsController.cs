@@ -87,9 +87,9 @@ namespace Procoder.Controllers
 
             if (user.Maps != null)
             {
-                string jsFile = JsonConvert.SerializeObject(user.Maps, Formatting.Indented);
+                var jsFile = JsonConvert.SerializeObject(user.Maps, Formatting.Indented);
 
-                return Ok(jsFile);
+                return Content(jsFile, "application/json");
             }
             else
                 BadRequest("Maps is not exist ");
