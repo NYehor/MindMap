@@ -12,6 +12,7 @@ export default class Board extends Component {
 
     const { match, location, history } = this.props;
     const path = match.path;
+    console.log(path);
 
     return (
       <div className='board-wrapper'>
@@ -26,6 +27,7 @@ export default class Board extends Component {
             <Route path={`${path}/my-maps`} component={Maps} />
             <Route path={`${path}/sharable`} component={Sharable}  />
             <Route path={`${path}/trash`} component={Trash}  />
+            <Route path={`${path}/my-maps/:map`} render={() => <div>MAP</div> }  />
           </Switch>
         </div>
 

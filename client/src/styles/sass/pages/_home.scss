@@ -1,0 +1,163 @@
+$violet: #852cff;
+$red: #ff5151;
+$yellow: #ffd153;
+$green: #4af7c6;
+$white: #fff;
+
+$problem-bg: $red;
+$solution-bg: $yellow;
+
+
+
+
+body {
+    font: 16px $sans-serif;
+}
+
+.container {
+    width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 15px;
+}
+
+.flex-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex-center {
+    justify-content: center;
+}
+.col-6 {
+    width: 50%;
+}
+.box {
+    border: 3px solid transparent;
+    padding: 30px;
+    border-radius: 5px;
+    width: 270px;
+    height: 150px;
+    font-size: 21px;
+    text-align: center;
+}
+.dark-box {
+    background: $brand-dark-color;
+}
+.hidden {
+    display: none;
+}
+.title {    
+    padding: 30px 0;
+    font: 700 40px $sans-serif;
+    text-align: center;
+    color: $brand-dark-color;
+}
+
+.light_title {
+    color: $white;
+}
+
+.border-right {
+    border-right: 3px solid $brand-dark-color;
+}
+
+
+
+/*form-block*/
+.form-group {
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 3px solid $brand-dark-color;
+    padding: 10px 15px;
+    width: 250px;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.button {
+    background-color: $brand-dark-color;
+    border: 1px solid $brand-dark-color;
+    color: $white;
+    font-size: 18px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.authorization_link {
+    max-width: 100px;
+
+    &:first-child {
+        margin-right: 50px;
+    }
+
+    & svg {
+        fill: $brand-dark-color;
+    }
+}
+
+
+.problems {
+    padding: 30px 0;
+    background: $brand-dark-color;
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;    
+    }
+    &__box {
+        width: 200px;
+        min-height: 200px;
+        margin: 20px 0;
+        padding: 20px;
+        font: 700 20px $sans-serif;
+        color: #2b2b2b;
+        background: #de5858;
+        border-radius: 10px;
+        text-align: center;
+        box-sizing: border-box;
+        align-items: center;
+        display: flex;    
+
+        &--solution {
+            background: #59ccab;
+        }
+    }
+}
+
+
+
+.features {
+    padding: 30px 0;
+}
+
+.features-list {
+    
+    &__item {        
+        display: flex;
+        margin: 20px 0;
+        align-items: center;
+        font-size: 20px;
+
+        svg {
+            width: 23px;
+            height: 23px;
+            fill: #769cd4;
+            margin-right: 10px;
+        }
+
+    }
+}

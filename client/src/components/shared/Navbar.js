@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Navbar(props) {
   return (
@@ -7,15 +7,15 @@ export default function Navbar(props) {
       <ul className='navigation'>
       
           <li className='navigation__item'>
-            <Link to='/board'>Board</Link>
+            <NavLink to='/board' activeClassName='navigation__link--active'>Board</NavLink>
           </li>
 
           <li className='navigation__item'>
-            <Link to='/sign-in'>Sign in</Link>
+            <NavLink to='/sign-in' activeClassName='navigation__link--active'>Sign in</NavLink>
           </li>
 
           <li className='navigation__item'>
-            <Link to='/sign-out'>Sign out</Link>
+            <NavLink to='/sign-out' activeClassName='navigation__link--active'>Sign out</NavLink>
           </li>
 
       </ul>

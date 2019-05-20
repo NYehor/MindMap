@@ -12,10 +12,12 @@ export default class MapsItem extends Component {
                 <TreePlaceholder />
                 <div className='maps-list__name'>
                     <span>{map.name}</span>
-                    <div className='context-menu--btn' onClick={onToggleContextMenu}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <div 
+                        className='context-menu--btn' 
+                        onClick={(e) => onToggleContextMenu(map.id, e.clientX, e.clientY)}>
+                            <span></span>
+                            <span></span>
+                            <span></span>
                     </div>
                 </div>
             </li>

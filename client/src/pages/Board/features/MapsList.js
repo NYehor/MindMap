@@ -1,38 +1,54 @@
 import React, { Component, Fragment } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import MapsItem from './MapsItem';
 import ContextMenu from './ContextMenu';
 
-export default class MapsList extends Component {
+class MapsList extends Component {
 
   constructor() {
     super();
 
     this.state = {
-      showContextMenu: false
+      showContextMenu: false,
+      contextMenu: { x: null, y: null },
+      selectedMapId: null
     }
   
     this.listDOMRect = null;  
   }
 
 
-  onToggleContextMenu = () => {
+  onToggleContextMenu = (mapId, coordX, coordY) => {
+    console.log(mapId);
     const showContextMenu = this.state.showContextMenu;
+
     this.setState({
-      showContextMenu: !showContextMenu
+      showContextMenu: !showContextMenu,
+      selectedMapId: mapId,
+      contextMenu: { x: coordX, y: coordY }
     });
   }
 
   componentDidMount() {
     this.listDOMRect = this.listRef.getBoundingClientRect();
+     
+    document.addEventListener('click', (e) => {
+      if (this.state.showContextMenu) {
+
+      }
+    });
   }
+
   componentDidUpdate() {
     this.listDOMRect = this.listRef.getBoundingClientRect();
   }
 
   render() {
-    console.log(this.listDOMRect);
+    console.log(this.props);
 
-    const { maps } = this.props;
+    const { maps, match } = this.props;
+    const { selectedMapId } = this.state;
+
     console.log([...maps.keys()]);
 
     return (
@@ -45,15 +61,20 @@ export default class MapsList extends Component {
                 <MapsItem 
                   key={item.id} 
                   map={item} 
-                  onToggleContextMenu={this.onToggleContextMenu} />)}
+                  onToggleContextMenu={this.onToggleContextMenu} />
+              )}
             </ul>
           </section>
         )}
 
       {this.state.showContextMenu ? 
         <ContextMenu render={() => 
-          <ul style={{display: 'block'}}>
-            <li>Edit</li>
+          <ul className='context-menu' style={{
+              display: 'block',
+              left: `${this.state.contextMenu && this.state.contextMenu.x + 20}px`,
+              top: `${this.state.contextMenu && this.state.contextMenu.y}px`
+          }}>
+            <li><Link to={`${this.props.match.url}/${selectedMapId}`}>Edit</Link></li>
             <li>Share</li>
             <li>Move to trash</li>
           </ul>
@@ -63,3 +84,6 @@ export default class MapsList extends Component {
     )
   }
 }
+
+
+export default withRouter(MapsList);

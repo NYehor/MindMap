@@ -74,22 +74,31 @@
     }
 }
 
-.context-menu {
+// .context-menu {
 
-    ul {
+    ul.context-menu {
+        width: 130px;
         position: absolute;
         top: 0;
         left: 0;
         display: none;
         list-style: none;
-        border: 3px solid $brand-coral-color;
+        border: 3px solid #e04f4f;
         border-radius: 5px;
 
-        li {
+        li, a {
+            cursor: pointer;
             padding: 10px;
             font: 700 16px $sans-serif;
-            color: $brand-coral-color;
+            color: #e04f4f;
             background:#ffe0e0;
+            &:hover {
+                color: #ffe0e0;
+                background: #e04f4f;
+            }
+        }
+        a {
+            padding: 0;
         }
     }
-}
+// }

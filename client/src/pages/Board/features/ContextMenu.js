@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 export default class ContextMenu extends Component {
   render() {
     return (
-      <div className='context-menu'>
-       { this.props.render()}
-      </div>
+      <Fragment>
+        {this.props.render()}
+      </Fragment>
     )
   }
 }

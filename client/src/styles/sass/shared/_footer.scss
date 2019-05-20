@@ -1,0 +1,37 @@
+footer {
+    @extend %flex-container;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+
+    li {
+        font: 700 18px $sans-serif;
+        color: #fff;
+
+        &:nth-child(2) {
+            margin-top: 5px;
+        }
+    }
+
+    svg {
+        fill: $accent-color;
+        margin-right: 5px;
+    }
+
+    a {
+        color: $accent-color;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            color: darken($accent-color, 20%);
+        }    
+        &:hover svg {
+            fill: darken($accent-color, 20%);
+        }    
+    }
+
+
+}

@@ -8,6 +8,7 @@
 /* variables */
 @import './sass/variables/color-pallete';
 @import './sass/variables/font';
+@import './sass/mixins';
 
 /* shared */
 @import './sass/shared/header';
@@ -15,6 +16,7 @@
 @import './sass/shared/modal';
 
 /* pages */
+@import './sass/pages/home';
 @import './sass/pages/board';
 @import './sass/pages/map';
 
