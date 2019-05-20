@@ -69,7 +69,7 @@ namespace Procoder.ControllersOld
         {
             User user = procoderDB.UserRepository.Authenticate(credential.Email, credential.Password);
 
-            if (user == null || user.IsEmailValid == false)
+            if (user == null)
             {
                 return BadRequest(new { message = "Username or password is wrong" });
             }
