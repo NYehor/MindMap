@@ -60,6 +60,30 @@ namespace Procoder.Controllers
             map.LastEdit = DateTime.Now;
             map.UserId = user_id;
 
+            Map existMap = procoderDB.MapRepository.GetById(map_id);
+
+            foreach (var node in map.Nodes)
+            {
+                bool flag = true;
+                foreach (var existNode in existMap.Nodes)
+                {
+                    if (node.Id == existNode.Id)
+                    {
+                        node.MapId = map.Id;
+                        procoderDB.NodeRepository.Update(node);
+                        procoderDB.Save();
+                        flag = false;
+                    }
+                }
+
+                if (flag)
+                {
+                    node.MapId = map.Id;
+                    procoderDB.NodeRepository.Create(node);
+                    procoderDB.Save();
+                }
+            }
+
             if (procoderDB.MapRepository.IsExist(map.Id))
             {
                 procoderDB.MapRepository.Update(map);
@@ -92,7 +116,8 @@ namespace Procoder.Controllers
 
             if (user.Maps != null)
             {
-                var jsFile = JsonConvert.SerializeObject(user.Maps, Formatting.Indented);
+                var maps = procoderDB.MapRepository.GetAllMaps(user_id);
+                var jsFile = JsonConvert.SerializeObject(maps, Formatting.Indented);
 
                 return Content(jsFile, "application/json");
             }

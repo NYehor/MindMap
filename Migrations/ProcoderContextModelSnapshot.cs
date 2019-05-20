@@ -46,16 +46,15 @@ namespace Procoder.Migrations
 
             modelBuilder.Entity("Procoder.Models.Node", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
+                    b.Property<string>("Id");
 
                     b.Property<int>("MapId");
 
+                    b.Property<string>("Content");
+
                     b.Property<string>("ParentID");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "MapId");
 
                     b.HasIndex("MapId");
 

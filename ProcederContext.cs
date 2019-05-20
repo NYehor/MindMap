@@ -22,6 +22,10 @@ namespace Procoder
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Node>().HasKey(c => new { c.Id, c.MapId });
+            modelBuilder.Entity<Node>().Property(a => a.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Node>().Property(a => a.MapId).ValueGeneratedNever();
+
             modelBuilder.Entity<User>()
             .HasMany(c => c.Maps)
             .WithOne(e => e.User);
@@ -30,9 +34,6 @@ namespace Procoder
             modelBuilder.Entity<Map>()
                 .HasOne(e => e.User)
                 .WithMany(c => c.Maps);
-
-            modelBuilder.Entity<Node>();
-                      
         }
     }
 }

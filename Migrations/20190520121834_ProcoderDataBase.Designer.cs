@@ -10,7 +10,7 @@ using Procoder;
 namespace Procoder.Migrations
 {
     [DbContext(typeof(ProcoderContext))]
-    [Migration("20190520101422_ProcoderDataBase")]
+    [Migration("20190520121834_ProcoderDataBase")]
     partial class ProcoderDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,16 +48,15 @@ namespace Procoder.Migrations
 
             modelBuilder.Entity("Procoder.Models.Node", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
+                    b.Property<string>("Id");
 
                     b.Property<int>("MapId");
 
+                    b.Property<string>("Content");
+
                     b.Property<string>("ParentID");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "MapId");
 
                     b.HasIndex("MapId");
 

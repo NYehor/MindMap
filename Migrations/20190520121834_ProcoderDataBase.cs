@@ -56,13 +56,13 @@ namespace Procoder.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    MapId = table.Column<int>(nullable: false),
                     ParentID = table.Column<string>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    MapId = table.Column<int>(nullable: false)
+                    Content = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Nodes", x => x.Id);
+                    table.PrimaryKey("PK_Nodes", x => new { x.Id, x.MapId });
                     table.ForeignKey(
                         name: "FK_Nodes_Maps_MapId",
                         column: x => x.MapId,
