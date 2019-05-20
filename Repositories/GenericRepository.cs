@@ -19,7 +19,7 @@ namespace Procoder.Repositories
 
         public void Create(TEntity entity)
         {
-            Context.Set<TEntity>().AddAsync(entity);
+            Context.Set<TEntity>().Add(entity);
         }
 
         public void Update(TEntity entity)

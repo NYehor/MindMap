@@ -39,9 +39,6 @@ namespace Procoder.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Maps");
@@ -50,15 +47,15 @@ namespace Procoder.Migrations
             modelBuilder.Entity("Procoder.Models.Node", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<int>("MapId");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
+                    b.Property<int>("MapId");
+
                     b.Property<string>("ParentID");
 
-                    b.HasKey("Id", "MapId");
+                    b.HasKey("Id");
 
                     b.HasIndex("MapId");
 
@@ -75,9 +72,7 @@ namespace Procoder.Migrations
 
                     b.Property<DateTime>("DateRegistration");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(64)");
+                    b.Property<string>("Email");
 
                     b.Property<bool>("IsEmailValid");
 
@@ -85,16 +80,9 @@ namespace Procoder.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("varchar(64)");
+                    b.Property<string>("Password");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });

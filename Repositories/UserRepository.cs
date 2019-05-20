@@ -29,7 +29,7 @@ namespace Procoder.Repositories
 
         public User GetByEmail(string email)
         {
-            return Context.Set<User>()
+            return Context.Users
                 .Include(t => t.Maps)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Email == email);
@@ -37,7 +37,8 @@ namespace Procoder.Repositories
 
         public User GetById(int id)
         {
-            return Context.Set<User>()
+            return Context.Users
+                .Include(t => t.Maps)
                 .AsNoTracking()
                 .FirstOrDefault(e => e.Id == id);
         }

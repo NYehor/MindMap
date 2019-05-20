@@ -7,6 +7,7 @@ namespace Procoder.Repositories
 {
     public interface IProcoderDB
     {
+        ProcoderContext context { get; set; }
         IUserRepository UserRepository { get; }
         IMapRepository MapRepository { get; }
         INodeRepository NodeRepository { get; }
