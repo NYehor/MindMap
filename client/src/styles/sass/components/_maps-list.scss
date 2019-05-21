@@ -92,9 +92,14 @@
             font: 700 16px $sans-serif;
             color: #e04f4f;
             background:#ffe0e0;
+
             &:hover {
                 color: #ffe0e0;
                 background: #e04f4f;
+                a {
+                    color: #ffe0e0;
+                    background: #e04f4f;    
+                }
             }
         }
         a {

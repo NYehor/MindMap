@@ -152,10 +152,6 @@ export default class Tree extends Component {
     onPasteHandler(e) {
         e.preventDefault();
         const text = e.clipboardData.getData('text/plain');
-        console.log('Got pasted text: ', text.length);
-        if (text.length > 1000) {
-
-        }
         document.execCommand("insertHTML", false, text);      
     }
 
@@ -396,6 +392,7 @@ export default class Tree extends Component {
 
     componentDidMount() {
         console.log('%c TREE: componentDidMount ', 'color: green; background-color: LightGreen; font-weight: bold')
+        console.log(this.props);
         this.props.addNode(this.props.treeName);
     }
 

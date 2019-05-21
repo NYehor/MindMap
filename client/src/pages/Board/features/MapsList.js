@@ -10,7 +10,7 @@ class MapsList extends Component {
 
     this.state = {
       showContextMenu: false,
-      contextMenu: { x: null, y: null },
+      coord: { x: '', y: '' },
       selectedMapId: null
     }
   
@@ -25,13 +25,11 @@ class MapsList extends Component {
     this.setState({
       showContextMenu: !showContextMenu,
       selectedMapId: mapId,
-      contextMenu: { x: coordX, y: coordY }
+      coord: { x: coordX, y: coordY }
     });
   }
 
-  componentDidMount() {
-    this.listDOMRect = this.listRef.getBoundingClientRect();
-     
+  componentDidMount() {     
     document.addEventListener('click', (e) => {
       if (this.state.showContextMenu) {
 
@@ -39,22 +37,18 @@ class MapsList extends Component {
     });
   }
 
-  componentDidUpdate() {
-    this.listDOMRect = this.listRef.getBoundingClientRect();
-  }
-
   render() {
     console.log(this.props);
 
     const { maps, match } = this.props;
-    const { selectedMapId } = this.state;
+    const { selectedMapId, coord } = this.state;
 
     console.log([...maps.keys()]);
 
     return (
       <Fragment>
         {[...maps.keys()].map((category, index) => 
-          <section key={index} className='maps-list' ref={el => (this.listRef = el)} >
+          <section key={index} className='maps-list' >
             <h3 className='maps-list__category'>{category}</h3>
             <ul className='maps-list__list'>
               {maps.get(category).map(item => 
@@ -69,12 +63,13 @@ class MapsList extends Component {
 
       {this.state.showContextMenu ? 
         <ContextMenu render={() => 
-          <ul className='context-menu' style={{
-              display: 'block',
-              left: `${this.state.contextMenu && this.state.contextMenu.x + 20}px`,
-              top: `${this.state.contextMenu && this.state.contextMenu.y}px`
+          <ul className='context-menu' 
+              style={{
+                display: 'block',
+                left: `${coord && coord.x + 20}px`,
+                top: `${coord && coord.y + 150}px`
           }}>
-            <li><Link to={`${this.props.match.url}/${selectedMapId}`}>Edit</Link></li>
+            <li><Link to={`${match.url}/${selectedMapId}`}>Edit</Link></li>
             <li>Share</li>
             <li>Move to trash</li>
           </ul>

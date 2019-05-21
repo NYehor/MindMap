@@ -11,11 +11,8 @@ class Maps extends Component {
     maps: new Map()
   }
 
-  static getDerivedStateFromProps(props) {
-    console.log('getDerivedStateFromProps')
-    return {
-      maps: props.maps
-    }
+  static getDerivedStateFromProps({maps}) {
+    return { maps }
   }
 
   render() {

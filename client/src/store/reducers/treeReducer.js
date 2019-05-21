@@ -8,8 +8,17 @@ export default function treeReducer(state = initialState.tree, action) {
 
     switch (action.type) {
 
-        case types.RESET_TREE:
-            return state;
+        case types.SET_SELECTED_TREE:
+            return action.payload;
+
+        case types.RESET_SELECTED_TREE:
+            return {
+                id: '',
+                name: '',
+                category: '',
+                status: 'own',
+                nodes: []            
+            };
 
         default:
             return {

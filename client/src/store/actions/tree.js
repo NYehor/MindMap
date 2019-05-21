@@ -1,18 +1,17 @@
 import uniqid from 'uniqid';
 import * as types from '../actionTypes';
 import { getNodeDescendants } from '../../services/treeTraverse';
-import initialState from '../initialState';
 
 /**
+ * node signature at nodes[]
  * 
- * node
- * - id
- * - name
- * - parentID
- * - content
- * - largeSnippets 
+ * id: String,
+ * parentID: String,
+ * name: String,
+ * content: String 
  * 
- */
+ **/
+
 
 export function addNode(parent, node) {
 
@@ -77,12 +76,31 @@ export function updateNode(node, content) {
 
 export function addTree(name, category) {
     return {
-        type: types.CREATE_TREE,
+        type: types.ADD_TREE,
         payload: {
-            ...initialState.tree,
             id: uniqid(),
             name,
-            category
+            category,
+            status: 'own',
+            nodes: []
         }
+    }
+}
+
+export function setSelectedTree(treeId) {
+    return (dispatch, getState) => {
+        const treeList = getState().treeList;
+        const tree = treeList.find(t => t.id === treeId);
+        dispatch({
+            type: types.SET_SELECTED_TREE,
+            payload: tree
+        });
+    }
+}
+
+export function resetSelectedtree() {
+    return {
+        type: types.RESET_SELECTED_TREE,
+        payload: ''
     }
 }

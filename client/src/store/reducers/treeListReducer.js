@@ -4,7 +4,7 @@ import * as types from '../actionTypes';
 export default function treeListReducer(state = initialState.treeList, action) {
     switch (action.type) {
 
-        case types.CREATE_TREE:
+        case types.ADD_TREE:
             return [
                 ...state,
                 action.payload

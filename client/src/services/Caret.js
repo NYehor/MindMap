@@ -14,9 +14,5 @@ export const Caret = {
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-    },
-    get() {
-        const cursor = document.getSelection();
-        console.log(cursor);
     }
 }
