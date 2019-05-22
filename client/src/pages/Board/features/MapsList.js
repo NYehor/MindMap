@@ -30,11 +30,7 @@ class MapsList extends Component {
   }
 
   componentDidMount() {     
-    document.addEventListener('click', (e) => {
-      if (this.state.showContextMenu) {
-
-      }
-    });
+    document.addEventListener('click', (e) => {});
   }
 
   render() {
@@ -66,8 +62,8 @@ class MapsList extends Component {
           <ul className='context-menu' 
               style={{
                 display: 'block',
-                left: `${coord && coord.x + 20}px`,
-                top: `${coord && coord.y + 150}px`
+                left: `${coord && coord.x + 10}px`,
+                top: `${coord && coord.y + window.scrollY}px`
           }}>
             <li><Link to={`${match.url}/${selectedMapId}`}>Edit</Link></li>
             <li>Share</li>

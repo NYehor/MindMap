@@ -5,5 +5,5 @@ export default {
     user,
     treeList: [],
     tree,
-    selectedTree: null
+    alert: null
 };

@@ -8,6 +8,7 @@ import Tree from './Tree';
 class TreeContainer extends Component {
 
     componentDidMount() {
+        console.log('%c TREECONTAINER: componentDidMount ', 'color: green; background-color: LightGreen; font-weight: bold')
         const { mapId } = this.props.match.params;
         this.props.setSelectedTree(mapId);
     }

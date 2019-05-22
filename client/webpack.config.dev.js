@@ -53,5 +53,10 @@ module.exports = {
     contentBase: path.resolve(__dirname, './build'),
     historyApiFallback: true
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
+  externals: {
+    config: JSON.stringify({
+        apiUrl: 'http://localhost:4000'
+      })
+  }
 };
