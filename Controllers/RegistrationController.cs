@@ -13,7 +13,7 @@ using Procoder.Repositories;
 
 namespace Procoder.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("register/[controller]")]
     [ApiController]
     public class RegistrationController : ControllerBase
     {

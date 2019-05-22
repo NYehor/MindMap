@@ -9,7 +9,7 @@ namespace Procoder.Models
     [Serializable]
     public class User
     {
-
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Procoder.Models
 
         public string Password { get; set; }
 
-        public List<Map> Maps { get; set; }
+        public ICollection<Map> Maps { get; set; }
 
         public DateTime DateRegistration { get; set; }
 

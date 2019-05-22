@@ -12,9 +12,9 @@ namespace Procoder.Repositories
     {
         public MapRepository(ProcoderContext context) : base(context) { }
 
-        public void Delete(int id)
+        public void Delete(int user_id, int mup_id)
         {
-            Context.Set<Map>().Remove(GetById(id));
+            Context.Maps.Remove(GetById(mup_id));
         }
 
         public void Delete(Map map)
@@ -22,28 +22,30 @@ namespace Procoder.Repositories
             Context.Set<Map>().Remove(map);
         }
 
-        public Map GetById(int id)
+        public Map GetById(int mup_id)
         {
-            return Context.Set<Map>()
+            var tmp = Context.Maps
                 .Include(t => t.Nodes)
                 .AsNoTracking()
-                .FirstOrDefault();
+                .FirstOrDefault(e => e.Id == mup_id);
+
+            return tmp;
         }
 
         public List<Map> GetAllMaps(int userId)
         {
             List<Map> maps = Context.Maps
+                .Where(d => d.UserId == userId)
                 .Include(t => t.Nodes)
                 .OrderBy(c => c.Id)
-                .Where(d => d.UserId == userId)
                 .ToList();
 
             return maps;
         }
 
-        public bool IsExist(int Id)
+        public bool IsExist (int mup_id)
         {
-            if (GetById(Id) != null)
+            if (GetById(mup_id) != null)
                 return true;
             else
                 return false;

@@ -12,7 +12,7 @@ using Procoder.Repositories;
 namespace Procoder.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("user/{user_id}/[controller]")]
     [ApiController]
     public class MapsController : ControllerBase
     {
@@ -23,36 +23,19 @@ namespace Procoder.Controllers
             this.procoderDB = procoderDB;
         }
 
-        [HttpPost("putmap")]
-        public IActionResult PutMap([FromBody]object jsonFile)
+        [HttpPost]
+        public IActionResult Post(int user_id)
         {
-            string jsFile = Convert.ToString(jsonFile);
-            if(jsFile == string.Empty || jsFile == null)
-                return Ok(new { OK = "No" });
-
-            Map map = JsonConvert.DeserializeObject<Map>(jsFile);
-            map.LastEdit = DateTime.Now;
-
-            if (!procoderDB.MapRepository.IsExist(map.Id))
-                procoderDB.MapRepository.Update(map);
-            else
-                BadRequest("Map is not exist");
-
-            return Ok();
-        }
-
-        [HttpGet("createmap")]
-        [Produces("application/json")]
-        public IActionResult CreateMap([FromBody]string email)
-        {
-            var user = procoderDB.UserRepository.GetByEmail(email);
+            var user = procoderDB.UserRepository.GetById(user_id);
             if (user != null)
             {
                 var newMap = new Map()
                 {
-                    Id = user.Id,
-                    CreateData = DateTime.Now
+                    CreateData = DateTime.Now,
+                    UserId = user.Id,
+                    Nodes = new List<Node>()
                 };
+
                 procoderDB.MapRepository.Create(newMap);
                 procoderDB.Save();
 
@@ -66,38 +49,80 @@ namespace Procoder.Controllers
             return BadRequest();
         }
 
-        [HttpGet("getmap/{mapId}")]
-        [Produces("application/json")]
-        public IActionResult GetMap(int mapId)
+        [HttpPost("{map_Id}")]
+        public IActionResult Save([FromBody]object jsonFile, int user_id, int map_id)
         {
-            if (procoderDB.MapRepository.IsExist(mapId))
-            {
-                var map = procoderDB.MapRepository.GetById(mapId);
-                string jsFile = JsonConvert.SerializeObject(map);
+            string jsFile = Convert.ToString(jsonFile);
+            if(jsFile == string.Empty || jsFile == null)
+                return Ok(new { OK = "No" });
 
-                return Ok(jsFile);
+            Map map = JsonConvert.DeserializeObject<Map>(jsFile);
+            map.LastEdit = DateTime.Now;
+            map.UserId = user_id;
+
+            Map existMap = procoderDB.MapRepository.GetById(map_id);
+
+            foreach (var node in map.Nodes)
+            {
+                bool flag = true;
+                foreach (var existNode in existMap.Nodes)
+                {
+                    if (node.Id == existNode.Id)
+                    {
+                        node.MapId = map.Id;
+                        procoderDB.NodeRepository.Update(node);
+                        procoderDB.Save();
+                        flag = false;
+                    }
+                }
+
+                if (flag)
+                {
+                    node.MapId = map.Id;
+                    procoderDB.NodeRepository.Create(node);
+                    procoderDB.Save();
+                }
+            }
+
+            if (procoderDB.MapRepository.IsExist(map.Id))
+            {
+                procoderDB.MapRepository.Update(map);
+                procoderDB.Save();
             }
             else
-                BadRequest("User is not exist ");
+                BadRequest("Map is not exist");
 
-
-            return BadRequest();
+            return Ok();
         }
 
-        [HttpGet("getallmaps")]
-        [Produces("application/json")]
-        public IActionResult GetAllMap([FromBody]string email)
+
+        [HttpDelete("{map_id}")]
+        public IActionResult Delete(int user_id, int mup_id)
         {
-            var user = procoderDB.UserRepository.GetByEmail(email);
+            procoderDB.MapRepository.Delete(user_id, mup_id);
+            procoderDB.Save();
+            return Ok();
+        }
+
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult Get(int user_id)
+        {
+            var user = procoderDB.UserRepository.GetById(user_id);
+
+            if (user == null)
+                BadRequest("User is not exist ");
 
             if (user.Maps != null)
             {
-                string jsFile = JsonConvert.SerializeObject(user.Maps, Formatting.Indented);
+                var maps = procoderDB.MapRepository.GetAllMaps(user_id);
+                var jsFile = JsonConvert.SerializeObject(maps, Formatting.Indented);
 
-                return Ok(jsFile);
+                return Content(jsFile, "application/json");
             }
             else
-                BadRequest("User is not exist ");
+                BadRequest("Maps is not exist ");
 
 
             return BadRequest();

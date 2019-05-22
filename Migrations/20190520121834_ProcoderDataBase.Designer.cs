@@ -10,7 +10,7 @@ using Procoder;
 namespace Procoder.Migrations
 {
     [DbContext(typeof(ProcoderContext))]
-    [Migration("20190519144449_ProcoderDataBase")]
+    [Migration("20190520121834_ProcoderDataBase")]
     partial class ProcoderDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,9 +41,6 @@ namespace Procoder.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Maps");
@@ -51,8 +48,7 @@ namespace Procoder.Migrations
 
             modelBuilder.Entity("Procoder.Models.Node", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(64)");
+                    b.Property<string>("Id");
 
                     b.Property<int>("MapId");
 
@@ -77,9 +73,7 @@ namespace Procoder.Migrations
 
                     b.Property<DateTime>("DateRegistration");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(64)");
+                    b.Property<string>("Email");
 
                     b.Property<bool>("IsEmailValid");
 
@@ -87,16 +81,9 @@ namespace Procoder.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("varchar(64)");
+                    b.Property<string>("Password");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
