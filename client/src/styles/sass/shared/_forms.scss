@@ -1,0 +1,39 @@
+.form {
+
+    &__controll {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+
+        &--label {
+            display: block;
+            margin-bottom: 5px;
+            font: 700 17px $sans-serif;
+            line-height: 1;
+            color: lighten($brand-dark-color, 10%);
+        }
+
+        &--input {
+            width: 100%;
+            padding: 7px 10px;
+            line-height: 1.5;
+            font: 400 18px $sans-serif;
+            color: $brand-dark-color;
+            border: 2px solid #ccd8ea;
+            border-radius: 5px;
+            background: #e6f1fb;  
+            box-sizing: border-box; 
+        }
+        &--submit {
+            cursor: pointer;
+            padding: 10px 30px;
+            display: inline-block;
+            box-sizing: border-box;
+            font: 700 22px $sans-serif;
+            color: $brand-lime-color;
+            background: $brand-dark-color;
+            border: 2px solid $brand-dark-color;
+            border-radius: 5px;
+        }
+    }
+}

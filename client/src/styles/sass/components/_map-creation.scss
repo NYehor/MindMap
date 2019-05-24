@@ -49,20 +49,18 @@
         color: #878787;
     }
 
-    // ::-webkit-input-placeholder { 
-    //     color: $brand-dark-color;
-    //   }
     &__input {
         display: block;
         height: 40px;
         font: 400 16px $sans-serif;
         color: $font-color;
-        border: 2px solid $brand-dark-color;
+        border: 2px solid #ccd8ea;
         border-radius: 5px;
         padding: 0 10px;
         line-height: 2;
         width: 100%;
         box-sizing: border-box;
+        background: #e6f1fb;
     }
     &__category {
         margin-bottom: 20px;

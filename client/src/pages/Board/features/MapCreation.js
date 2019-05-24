@@ -49,7 +49,6 @@ class MapCreation extends Component {
             <Fragment>
               <Select
                 className='category-select'
-                placeholder='Select'
                 maxMenuHeight={150}
                 onChange={this.handleSelect}
                 options={caregoryOptions}
@@ -59,19 +58,19 @@ class MapCreation extends Component {
         }
 
         <input 
-          placeholder='Create'
           name='categoryName' 
           value={this.state.categoryName}
           className='map-creation__category map-creation__input'
-          onChange={this.onInputChange} />
+          onChange={this.onInputChange} 
+          autoComplete='off' />
 
         <label>Map name</label>        
         <input 
-          placeholder='Create'
           name='mapName'  
           value={this.state.mapName}
           className='map-creation__name map-creation__input' 
-          onChange={this.onInputChange} />
+          onChange={this.onInputChange} 
+          autoComplete='off' />
 
           <button onClick={this.onMapCreation}>Create</button>
 

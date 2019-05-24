@@ -1,7 +1,7 @@
 import * as types from '../actionTypes';
 import initialState from '../initialState';
 
-export function alert (state = initialState, action) {
+export default function alert (state = initialState, action) {
   switch (action.type) {
     case types.ALERT_SUCCESS:
       return {

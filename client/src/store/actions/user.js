@@ -32,24 +32,24 @@ export default function signIn(username, password) {
     return (dispatch) => {
         dispatch({
             type: types.SIGNIN_REQUEST,
-            payload: { username }
+            payload: { username, password }
         });
 
 
-        userAPI.signIn()
-        .then(user => {
-            dispatch({
-                type: types.SIGNIN_SUCCESS,
-                payload: user
+        userAPI.signIn(username, password)
+            .then(user => {
+                dispatch({
+                    type: types.SIGNIN_SUCCESS,
+                    payload: user
+                });
+            })
+            .catch(error => {
+                dispatch({
+                    type: types.SIGNIN_FAILURE,
+                    payload: error
+                });
+                dispatch(alerts.error(error));
             });
-        })
-        .catch(error => {
-            dispatch({
-                type: types.SIGNIN_FAILURE,
-                payload: error
-            });
-            dispatch(alerts.error(error));
-        })
     }
 }
 
@@ -65,5 +65,4 @@ export default function signOut() {
         });
     
     }
-
 }
