@@ -97,9 +97,9 @@ namespace Procoder.Controllers
 
 
         [HttpDelete("{map_id}")]
-        public IActionResult Delete(int user_id, int mup_id)
+        public IActionResult Delete(int user_id, int map_Id)
         {
-            procoderDB.MapRepository.Delete(user_id, mup_id);
+            procoderDB.MapRepository.Delete(user_id, map_Id);
             procoderDB.Save();
             return Ok();
         }
