@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
 
 import Home from '../pages/Home';
 import Board from '../pages/Board';
@@ -8,15 +9,18 @@ import Footer from '../components/shared/Footer';
 
 import '../styles/style.scss';
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
       <Fragment>
-        <Header />
+        <Header auth={this.props.auth} />
         <main>
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/board" component={Board} />
+            {this.props.auth.logIn ? 
+              <Route path="/board" component={Board} /> :
+              <Redirect to="/" />
+            }
           </Switch>
         </main>
         <Footer />
@@ -24,3 +28,11 @@ export default class App extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+	return { 
+        auth: state.auth
+    };
+}
+
+export default connect(mapStateToProps)(App);

@@ -1,9 +1,11 @@
 import * as types from '../actionTypes';
 import userAPI from '../../services/APIService/userAPI';
-import alerts from './alerts';
+import alert from './alert';
 
 
-export default function register() {
+export function register(user) {
+    console.log(user);
+    
     return dispatch => {
         dispatch({
             type: types.REGISTER_REQUEST,
@@ -19,16 +21,17 @@ export default function register() {
 
             })
             .catch(error => {
+                console.log(error)
                 dispatch({
                     type: types.REGISTER_FAILURE,
                     payload: error
                 });
-                // dispatch(alerts.error(error));
+                // dispatch(alert.error(error));
             });
     }
 }
 
-export default function signIn(username, password) {
+export function signIn(username, password) {
     return (dispatch) => {
         dispatch({
             type: types.SIGNIN_REQUEST,
@@ -48,20 +51,20 @@ export default function signIn(username, password) {
                     type: types.SIGNIN_FAILURE,
                     payload: error
                 });
-                dispatch(alerts.error(error));
+                dispatch(alert.error(error));
             });
     }
 }
 
 
-export default function signOut() {
+export function signOut() {
     return dispatch => {
         userAPI.signOut()
         .then(() => {
             dispatch({
                 type: types.SIGNOUT
             });
-            dispatch(alerts.success('You sign out successfully!'));
+            dispatch(alert.success('You sign out successfully!'));
         });
     
     }

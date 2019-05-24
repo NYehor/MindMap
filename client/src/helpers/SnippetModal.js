@@ -11,11 +11,10 @@ modalBody.setAttribute('class', 'snippet-modal__body');
 
 const modalHeader = document.createElement('div');
 modalHeader.setAttribute('class', 'snippet-modal__header');
-modalHeader.innerHTML = `<svg class="close-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                              x="0px" y="0px" viewBox="0 0 50 50" xml:space="preserve">
-                                    <circle style="fill:#D4D4D4;" cx="25" cy="25" r="25"/>
-                                    <polyline style="fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;" points="16,34 25,25 34,16"/>
-                                    <polyline style="fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;" points="16,16 25,25 34,34"/>
+modalHeader.innerHTML = `<svg class="close-icon" x="0px" y="0px" viewBox="0 0 50 50">
+                            <circle style="fill:#D4D4D4;" cx="25" cy="25" r="25"/>
+                            <polyline style="fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;" points="16,34 25,25 34,16"/>
+                            <polyline style="fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;" points="16,16 25,25 34,34"/>
                         </svg>`;
 modal.appendChild(modalHeader);
 

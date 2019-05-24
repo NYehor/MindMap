@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import * as d3 from "d3";
 import PerfectScrollbar from 'perfect-scrollbar';
 
-import SnippetModal from '../services/SnippetModal';
+import SnippetModal from '../helpers/SnippetModal';
 import { NODE } from '../utils/treeDimensions';
-import { Caret } from '../services/Caret';
+import Caret from '../helpers/Caret';
 import keyCodes from '../utils/keyCodes';
 import { md, sanitize } from '../services/markdown';
 

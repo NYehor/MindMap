@@ -1,4 +1,4 @@
-export const Caret = {
+const Caret = {
     set(parent) {
         console.log(parent.innerHTML);
         // console.log(parent.innerText);
@@ -15,4 +15,7 @@ export const Caret = {
         selection.removeAllRanges();
         selection.addRange(range);
     }
-}
+};
+
+
+export default Caret;

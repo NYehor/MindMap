@@ -4,7 +4,7 @@ import * as types from '../actionTypes';
 
 export default function treeReducer(state = initialState.tree, action) {
 
-    console.log(state);
+    // console.log(state);
 
     switch (action.type) {
 

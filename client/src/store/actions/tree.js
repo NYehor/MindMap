@@ -1,6 +1,6 @@
 import uniqid from 'uniqid';
 import * as types from '../actionTypes';
-import { getNodeDescendants } from '../../services/treeTraverse';
+import { getNodeDescendants } from '../../helpers/treeTraverse';
 
 /**
  * node signature at nodes[]

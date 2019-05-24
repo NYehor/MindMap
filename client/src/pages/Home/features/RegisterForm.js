@@ -16,7 +16,7 @@ export default class RegisterForm extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-
+        this.props.actions.register(this.state);
     }
 
     render() {
@@ -56,7 +56,7 @@ export default class RegisterForm extends Component {
                                 Register
                     </button>
                 </div>
-                
+
             </form>
         )
     }
