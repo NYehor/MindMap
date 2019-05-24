@@ -23,6 +23,7 @@ namespace Procoder.Controllers
             this.procoderDB = procoderDB;
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Post(int user_id)
         {
@@ -49,6 +50,7 @@ namespace Procoder.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPost("{map_Id}")]
         public IActionResult Save([FromBody]object jsonFile, int user_id, int map_id)
         {
@@ -95,16 +97,16 @@ namespace Procoder.Controllers
             return Ok();
         }
 
-
+        [Authorize]
         [HttpDelete("{map_id}")]
-        public IActionResult Delete(int user_id, int mup_id)
+        public IActionResult Delete(int user_id, int map_Id)
         {
-            procoderDB.MapRepository.Delete(user_id, mup_id);
+            procoderDB.MapRepository.Delete(user_id, map_Id);
             procoderDB.Save();
             return Ok();
         }
 
-
+        [Authorize]
         [HttpGet]
         [Produces("application/json")]
         public IActionResult Get(int user_id)
