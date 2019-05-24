@@ -17,8 +17,8 @@ namespace Procoder.Migrations
                     Name = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     AvatarImg = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(type: "varchar(64)", nullable: false),
-                    Password = table.Column<string>(type: "varchar(64)", nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
                     DateRegistration = table.Column<DateTime>(nullable: false),
                     IsEmailValid = table.Column<bool>(nullable: false)
                 },
@@ -55,7 +55,7 @@ namespace Procoder.Migrations
                 name: "Nodes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(64)", nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     MapId = table.Column<int>(nullable: false),
                     ParentID = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true)
@@ -72,12 +72,6 @@ namespace Procoder.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Maps_Id",
-                table: "Maps",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Maps_UserId",
                 table: "Maps",
                 column: "UserId");
@@ -86,18 +80,6 @@ namespace Procoder.Migrations
                 name: "IX_Nodes_MapId",
                 table: "Nodes",
                 column: "MapId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Id",
-                table: "Users",
-                column: "Id",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

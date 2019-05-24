@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Procoder.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Procoder
 {
@@ -21,37 +22,18 @@ namespace Procoder
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(e =>
-            {
-                 e.HasIndex(p => new { p.Id })
-                    .IsUnique();
+            modelBuilder.Entity<Node>().HasKey(c => new { c.Id, c.MapId });
+            modelBuilder.Entity<Node>().Property(a => a.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Node>().Property(a => a.MapId).ValueGeneratedNever();
 
-                e.HasIndex(p => p.Email)
-                    .IsUnique();
+            modelBuilder.Entity<User>()
+            .HasMany(c => c.Maps)
+            .WithOne(e => e.User);
 
-                e.Property(p => p.Email)
-                    .IsRequired()
-                    .HasColumnType("varchar(64)");
-
-                e.Property(p => p.Password)
-                    .HasColumnType("varchar(64)");
-            });
-
-            modelBuilder.Entity<Map>(e =>
-            {
-                e.HasIndex(p => new { p.Id })
-                   .IsUnique();
-            });
-
-            modelBuilder.Entity<Node>(e =>
-            {
-                e.HasKey(p => new { p.Id, p.MapId });
-
-                e.Property(p => p.Id)
-                    .IsRequired()
-                    .HasColumnType("varchar(64)");
-            });
-              
+            modelBuilder.Entity<Map>().Property(a => a.UserId).ValueGeneratedNever();
+            modelBuilder.Entity<Map>()
+                .HasOne(e => e.User)
+                .WithMany(c => c.Maps);
         }
     }
 }

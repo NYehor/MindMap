@@ -7,7 +7,7 @@ namespace Procoder.Repositories
 {
     public class ProcoderDB : IProcoderDB
     {
-        private ProcoderContext context;
+        public ProcoderContext context { get; set; }
 
         private IUserRepository userRepository;
         private IMapRepository mapRepository;

@@ -23,14 +23,18 @@ namespace Procoder.Models
         public string Status { get; set; }
 
         [JsonProperty("nodes")]
-        public List<Node> Nodes { get; set; }
+        public ICollection<Node> Nodes { get; set; }
 
+        [JsonIgnore]
         public DateTime CreateData { get; set; }
 
+        [JsonIgnore]
         public DateTime LastEdit { get; set; }
 
+        [JsonIgnore]
         public int UserId { get; set; }
 
+        [JsonIgnore]
         public User User { get; set; }
     }
 }

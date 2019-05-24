@@ -49,7 +49,7 @@ module.exports = {
     modules: [path.resolve('./node_modules')]
   },
   devServer: {
-    port: 44301,
+    port: 8080,
     contentBase: path.resolve(__dirname, './build'),
     historyApiFallback: true
   },
