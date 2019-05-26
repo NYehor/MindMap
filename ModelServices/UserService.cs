@@ -40,7 +40,8 @@ namespace Procoder.ModelServices
             {
                 Id = user.Id,
                 Name = user.Name,
-                Token = TokenFactory.Get(email, appSettings.Secret)
+                Token = TokenFactory.Get(email, appSettings.Secret),
+                Email = user.Email
             };
         }
 

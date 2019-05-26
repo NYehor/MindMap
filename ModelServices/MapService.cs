@@ -18,14 +18,34 @@ namespace Procoder.ModelServices
             this.procoderDb = procoderDB;
         }
 
-        public void ChangeCategory(string mapId)
+        public void ChangeCategory(int mapId, string newName)
         {
-            throw new NotImplementedException();
+            var map = procoderDb.MapRepository.GetById(mapId);
+            map.Category = newName;
+
+            procoderDb.MapRepository.Update(map);
+            procoderDb.Save();
         }
 
-        public void ChangeStatus(string mapId)
+        public void ChangeMapsCategory(int userId, string oldName, string newName)
         {
-            throw new NotImplementedException();
+            var maps = procoderDb.MapRepository.GetUserMapsByCategory(userId, oldName);
+            foreach (var map in maps)
+            {
+                map.Category = newName;
+                procoderDb.MapRepository.Update(map);
+            }
+
+            procoderDb.Save();
+        }
+
+        public void ChangeStatus(int mapId, string newStatus)
+        {
+            var map = procoderDb.MapRepository.GetById(mapId);
+            map.Status = newStatus;
+
+            procoderDb.MapRepository.Update(map);
+            procoderDb.Save();
         }
 
         public Map Create(int userId)
@@ -56,9 +76,15 @@ namespace Procoder.ModelServices
             procoderDb.Save();
         }
 
-        public void DeleteUserTrashMaps()
+        public void DeleteUserTrashMaps(int userId)
         {
-            throw new NotImplementedException();
+            var maps = procoderDb.MapRepository.GetUserMapsByStatus(userId, "trash");
+            foreach (var map in maps)
+            {
+                procoderDb.MapRepository.Delete(map);
+            }
+
+            procoderDb.Save();
         }
 
         public ICollection<Map> GetAllUserMaps(int userId)

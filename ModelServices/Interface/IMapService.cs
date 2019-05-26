@@ -8,9 +8,10 @@ namespace Procoder.ModelServices.Interface
 {
     public interface IMapService
     {
-        void ChangeCategory(string mapId);
-        void ChangeStatus(string mapId);
-        void DeleteUserTrashMaps();
+        void ChangeMapsCategory(int userId, string oldName, string newName);
+        void ChangeCategory(int mapId, string newName);
+        void ChangeStatus(int mapId, string newStatus);
+        void DeleteUserTrashMaps(int userId);
         ICollection<Map> GetAllUserMaps(int userId);
         Map GetById(int Id);
         void Save(object jsonFile, int userId, int mapId);

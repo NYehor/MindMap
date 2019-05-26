@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using Procoder.Repositories;
 using Procoder.ModelServices.Interface;
+using Procoder.DTO;
 
 namespace Procoder.Controllers
 {
@@ -70,6 +71,21 @@ namespace Procoder.Controllers
         }
 
         [Authorize]
+        [HttpDelete]
+        public IActionResult DeleteTrash(int user_id)
+        {
+            try
+            {
+                mapService.DeleteUserTrashMaps(user_id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize]
         [HttpGet]
         [Produces("application/json")]
         public IActionResult Get(int user_id)
@@ -78,6 +94,51 @@ namespace Procoder.Controllers
             var jsFile = JsonConvert.SerializeObject(maps, Formatting.Indented);
 
             return Content(jsFile, "application/json");
+        }
+
+        [Authorize]
+        [HttpPost("{map_id}/status")]
+        public IActionResult ChangeStatus(int map_id, [FromBody]string status)
+        {
+            try
+            {
+                mapService.ChangeStatus(map_id, status);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("category")]
+        public IActionResult ChangeCategory(int user_id, [FromBody]Category category)
+        {
+            try
+            {
+                mapService.ChangeMapsCategory(user_id, category.OldName, category.NewName);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("category/{map_id}")]
+        public IActionResult ChangeMapCategory(int map_id, [FromBody]string Category)
+        {
+            try
+            {
+                mapService.ChangeCategory(map_id, Category);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Procoder.DTO
         public int Id { get; set; }
         [JsonProperty("userName")]
         public string Name { get; set; }
+        [JsonProperty("email")]
+        public string Email { get; set; }
         [JsonProperty("token")]
         public string Token { get; set; }
     }
