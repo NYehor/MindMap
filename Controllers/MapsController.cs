@@ -8,6 +8,7 @@ using Procoder.Models;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using Procoder.Repositories;
+using Procoder.ModelServices.Interface;
 
 namespace Procoder.Controllers
 {
@@ -16,94 +17,56 @@ namespace Procoder.Controllers
     [ApiController]
     public class MapsController : ControllerBase
     {
-        private IProcoderDB procoderDB;
+        private readonly IMapService mapService;
 
-        public MapsController(IProcoderDB procoderDB)
+        public MapsController(IMapService mapService)
         {
-            this.procoderDB = procoderDB;
+            this.mapService = mapService;
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post(int user_id)
+        public IActionResult Create(int user_id)
         {
-            var user = procoderDB.UserRepository.GetById(user_id);
-            if (user != null)
+            try
             {
-                var newMap = new Map()
-                {
-                    CreateData = DateTime.Now,
-                    UserId = user.Id,
-                    Nodes = new List<Node>()
-                };
-
-                procoderDB.MapRepository.Create(newMap);
-                procoderDB.Save();
-
-                string jsFile = JsonConvert.SerializeObject(newMap);
-
-                return Ok(jsFile);
+                var newMap = mapService.Create(user_id);
+                return Ok(JsonConvert.SerializeObject(newMap));
             }
-            else
-                BadRequest("User is not exist ");
-
-            return BadRequest();
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [Authorize]
         [HttpPost("{map_Id}")]
         public IActionResult Save([FromBody]object jsonFile, int user_id, int map_id)
         {
-            string jsFile = Convert.ToString(jsonFile);
-            if(jsFile == string.Empty || jsFile == null)
-                return Ok(new { OK = "No" });
-
-            Map map = JsonConvert.DeserializeObject<Map>(jsFile);
-            map.LastEdit = DateTime.Now;
-            map.UserId = user_id;
-
-            Map existMap = procoderDB.MapRepository.GetById(map_id);
-
-            foreach (var node in map.Nodes)
+            try
             {
-                bool flag = true;
-                foreach (var existNode in existMap.Nodes)
-                {
-                    if (node.Id == existNode.Id)
-                    {
-                        node.MapId = map.Id;
-                        procoderDB.NodeRepository.Update(node);
-                        procoderDB.Save();
-                        flag = false;
-                    }
-                }
-
-                if (flag)
-                {
-                    node.MapId = map.Id;
-                    procoderDB.NodeRepository.Create(node);
-                    procoderDB.Save();
-                }
+                mapService.Save(jsonFile, user_id, map_id);
+                return Ok();
             }
-
-            if (procoderDB.MapRepository.IsExist(map.Id))
+            catch (Exception ex)
             {
-                procoderDB.MapRepository.Update(map);
-                procoderDB.Save();
+                return BadRequest(ex);
             }
-            else
-                BadRequest("Map is not exist");
-
-            return Ok();
         }
 
         [Authorize]
         [HttpDelete("{map_id}")]
         public IActionResult Delete(int user_id, int map_Id)
         {
-            procoderDB.MapRepository.Delete(user_id, map_Id);
-            procoderDB.Save();
-            return Ok();
+            try
+            {
+                mapService.Delete(user_id, map_Id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [Authorize]
@@ -111,23 +74,10 @@ namespace Procoder.Controllers
         [Produces("application/json")]
         public IActionResult Get(int user_id)
         {
-            var user = procoderDB.UserRepository.GetById(user_id);
+            var maps = mapService.GetAllUserMaps(user_id);
+            var jsFile = JsonConvert.SerializeObject(maps, Formatting.Indented);
 
-            if (user == null)
-                BadRequest("User is not exist ");
-
-            if (user.Maps != null)
-            {
-                var maps = procoderDB.MapRepository.GetAllMaps(user_id);
-                var jsFile = JsonConvert.SerializeObject(maps, Formatting.Indented);
-
-                return Content(jsFile, "application/json");
-            }
-            else
-                BadRequest("Maps is not exist ");
-
-
-            return BadRequest();
+            return Content(jsFile, "application/json");
         }
     }
 }

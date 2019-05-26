@@ -11,22 +11,6 @@ namespace Procoder.Repositories
     {
         public UserRepository(ProcoderContext context) : base(context) { }
 
-        public User Authenticate(string email, string password)
-        {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-            {
-                return null;
-            }
-
-            var user = Context.Users.FirstOrDefault(e => e.Email == email);
-            if (user != null && PasswordHasher.Verify(password, user.Password))
-            {
-                return null;
-            }
-
-            return user;
-        }
-
         public User GetByEmail(string email)
         {
             return Context.Users
@@ -57,11 +41,6 @@ namespace Procoder.Repositories
                 return true;
             else
                 return false;
-        }
-
-        public bool VerefiPassword(string password)
-        {
-            return true;
         }
     }
 }
