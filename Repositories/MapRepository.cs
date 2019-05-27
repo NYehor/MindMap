@@ -32,23 +32,35 @@ namespace Procoder.Repositories
             return tmp;
         }
 
-        public List<Map> GetAllMaps(int userId)
+        public ICollection<Map> GetAllMaps(int userId)
         {
-            List<Map> maps = Context.Maps
+            return Context.Maps
                 .Where(d => d.UserId == userId)
                 .Include(t => t.Nodes)
                 .OrderBy(c => c.Id)
                 .ToList();
-
-            return maps;
         }
 
-        public bool IsExist (int mup_id)
+        public bool IsExist(int mup_id)
         {
             if (GetById(mup_id) != null)
                 return true;
             else
                 return false;
+        }
+
+        public ICollection<Map> GetUserMapsByStatus(int userId, string status)
+        {
+            return Context.Maps
+                .Where(d => d.UserId == userId && d.Status == status)
+                .ToList();
+        }
+
+        public ICollection<Map> GetUserMapsByCategory(int userId, string category)
+        {
+            return Context.Maps
+                .Where(d => d.UserId == userId && d.Category == category)
+                .ToList();
         }
     }
 }

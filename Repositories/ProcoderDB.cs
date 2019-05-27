@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Procoder.Repositories
 {
-    public class ProcoderDB : IProcoderDB
+    public class ProcoderDb : IProcoderDb
     {
         public ProcoderContext context { get; set; }
 
@@ -18,7 +18,7 @@ namespace Procoder.Repositories
         public INodeRepository NodeRepository { get => nodeRepository; }
 
 
-        public ProcoderDB(ProcoderContext context)
+        public ProcoderDb(ProcoderContext context)
         {
             this.context = context;
             userRepository = new UserRepository(context);
