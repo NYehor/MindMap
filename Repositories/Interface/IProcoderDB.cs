@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Procoder.Repositories
 {
-    public interface IProcoderDB
+    public interface IProcoderDb
     {
         ProcoderContext context { get; set; }
         IUserRepository UserRepository { get; }

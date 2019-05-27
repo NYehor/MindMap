@@ -15,6 +15,8 @@ using Procoder.Configurations;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Newtonsoft.Json;
 using Procoder.Repositories;
+using Procoder.ModelServices.Interface;
+using Procoder.ModelServices;
 
 namespace Procoder
 {
@@ -39,7 +41,9 @@ namespace Procoder
 
             services.AddDbContext<ProcoderContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IProcoderDB, ProcoderDB>();
+            services.AddScoped<IProcoderDb, ProcoderDb>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMapService, MapService>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);

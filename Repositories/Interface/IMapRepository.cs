@@ -8,7 +8,9 @@ namespace Procoder.Repositories
 {
     public interface IMapRepository: IGenericRepository<Map>
     {
-        List<Map> GetAllMaps(int userId);
+        ICollection<Map> GetUserMapsByCategory(int userId, string category);
+        ICollection<Map> GetUserMapsByStatus(int userId, string status);
+        ICollection<Map> GetAllMaps(int userId);
         Map GetById(int mup_id);
         void Delete(int user_id, int mup_id);
         void Delete(Map map);
