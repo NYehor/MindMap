@@ -56,7 +56,7 @@ module.exports = {
   devtool: 'source-map',
   externals: {
     config: JSON.stringify({
-        apiUrl: 'http://localhost:5001'
+        apiUrl: 'https://localhost:5001'
     })
   }
 };

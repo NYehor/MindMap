@@ -1,7 +1,7 @@
 import * as types from '../actionTypes';
 import userAPI from '../../services/APIService/userAPI';
 import alert from './alert';
-
+import { withLowercaseKeys } from '../../helpers/jsonFormatting';
 
 export function register(user) {
     console.log(user);
@@ -14,6 +14,11 @@ export function register(user) {
 
         userAPI.register(user)
             .then(user => {
+
+                console.log(user);
+
+                // localStorage.setItem('user', JSON.stringify(user));
+
                 dispatch({
                     type: types.REGISTER_SUCCESS,
                     payload: user

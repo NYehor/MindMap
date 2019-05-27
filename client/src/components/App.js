@@ -16,10 +16,9 @@ class App extends Component {
         <Header auth={this.props.auth} />
         <main>
           <Switch>
-            <Route path="/" component={Home} exact />
             {this.props.auth.logIn ? 
               <Route path="/board" component={Board} /> :
-              <Redirect to="/" />
+              <Route path="/" component={Home} exact />
             }
           </Switch>
         </main>
