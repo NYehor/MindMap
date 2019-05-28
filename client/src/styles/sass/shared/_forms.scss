@@ -35,5 +35,12 @@
             border: 2px solid $brand-dark-color;
             border-radius: 5px;
         }
+        &--alert {
+            display: block;
+            margin-top: 3px;
+            line-height: 1;
+            font: 400 14px $sans-serif;
+            color: #e65757
+        }
     }
 }

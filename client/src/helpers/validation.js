@@ -1,5 +1,0 @@
-export const alerts = {
-    name: {
-        
-    }
-}
