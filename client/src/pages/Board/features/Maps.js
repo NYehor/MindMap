@@ -20,10 +20,10 @@ class Maps extends Component {
     console.log(maps)
 
     return (
-      <Fragment>
+      <div className='board__content'>
         {maps.size === 0 && <Placeholder title='There are no any maps yet!' />}
         {maps.size !== 0 && <MapsList maps={maps}/>}
-      </Fragment>
+      </div>
     )
   }
 }

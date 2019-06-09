@@ -8,11 +8,16 @@ export default function auth (state = authState, action) {
 
   switch (action.type) {
     case types.REGISTER_SUCCESS:
-    case types.SIGNIN_SUCCESS:
       return {
           logIn: true,
-          user: {name: action.payload.name, email: action.payload.email}
+          user: {
+            id: action.payload.userId,
+            name: action.payload.userName,
+            email: action.payload.email
+          }
       }
+    case types.SIGNIN_SUCCESS:
+      return state;
 
     case types.REGISTER_REQUEST:
     case types.REGISTER_FAILURE:

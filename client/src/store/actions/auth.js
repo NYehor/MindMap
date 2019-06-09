@@ -3,21 +3,22 @@ import userAPI from '../../services/APIService/userAPI';
 import alert from './alert';
 import { withLowercaseKeys } from '../../helpers/jsonFormatting';
 
-export function register(user) {
+export function register({ user, redirectTo }) {
     console.log(user);
     
     return dispatch => {
-        dispatch({
-            type: types.REGISTER_REQUEST,
-            payload: user
-        });
+        // dispatch({
+        //     type: types.REGISTER_REQUEST,
+        //     payload: user
+        // });
 
         userAPI.register(user)
             .then(user => {
 
                 console.log(user);
 
-                // localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('user', JSON.stringify(user));
+                redirectTo('/board');
 
                 dispatch({
                     type: types.REGISTER_SUCCESS,

@@ -42,7 +42,7 @@ class MapCreation extends Component {
      return (
       <div className='map-creation'>
 
-        <label>Category name</label>
+        <label>Collection</label>
         
         {
           caregoryOptions.length !== 0 &&
@@ -62,14 +62,16 @@ class MapCreation extends Component {
           value={this.state.categoryName}
           className='map-creation__category map-creation__input'
           onChange={this.onInputChange} 
+          placeholder='Type...'
           autoComplete='off' />
 
-        <label>Map name</label>        
+        <label>Map</label>        
         <input 
           name='mapName'  
           value={this.state.mapName}
           className='map-creation__name map-creation__input' 
           onChange={this.onInputChange} 
+          placeholder='Type...'
           autoComplete='off' />
 
           <button onClick={this.onMapCreation}>Create</button>

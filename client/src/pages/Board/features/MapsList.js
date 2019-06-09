@@ -14,9 +14,7 @@ class MapsList extends Component {
       selectedMapId: null
     }
   
-    this.listDOMRect = null;  
   }
-
 
   onToggleContextMenu = (mapId, coordX, coordY) => {
     console.log(mapId);
@@ -30,12 +28,10 @@ class MapsList extends Component {
   }
 
   componentDidMount() {     
-    document.addEventListener('click', (e) => {});
+    // document.addEventListener('click', (e) => {});
   }
 
   render() {
-    console.log(this.props);
-
     const { maps, match } = this.props;
     const { selectedMapId, coord } = this.state;
 

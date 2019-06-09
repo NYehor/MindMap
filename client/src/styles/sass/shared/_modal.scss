@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
 
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -17,8 +17,6 @@
         display: inline-block;
         min-width: 300px;
         min-height: 300px;
-
-        background: #fff;
         border-radius: 10px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
@@ -31,18 +29,22 @@
 
             font: 700 20px $sans-serif;
             color: #fff;
-            padding: 5px 15px;
+            padding: 5px 20px;
             background: $brand-dark-color;
         }
 
         &__close {
             cursor: pointer;
             font-size: 35px;
+            // line-height: 1;
             color: $accent-color;
         }
 
         &__content {
             padding: 20px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            background: #fff;
         }
     }
 }

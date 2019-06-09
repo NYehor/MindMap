@@ -4,9 +4,9 @@ import Placeholder from './Placeholder';
 export default class Sharable extends Component {
   render() {
     return (
-      <Fragment>
+      <div className='board__content'>
         <Placeholder title='There are no any sharable maps yet!' />
-      </Fragment>
+      </div>
     )
   }
 }

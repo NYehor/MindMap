@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import formValidation from '../../../helpers/formValidation';
+import { formValidation, isEmptyAlerts } from '../../../helpers/formValidation';
 
 export default class RegisterForm extends Component {
 
@@ -13,30 +13,47 @@ export default class RegisterForm extends Component {
     };
 
     onChangeInput = (e) => {
+        const { name, value } = e.target;
         const { user } = this.state;
         this.setState({
             user: {
                 ...user,
-                [e.target.name]: e.target.value
+                [name]: value
             }
         });
     }
 
     onBlurInput = (e) => {
+        const { name, value } = e.target;
+        const { alerts } = this.state;
+
         const currentInput = {
-            [e.target.name]: e.target.value
-        }
+            [name]: value
+        };
         this.setState({
-            alerts: formValidation(currentInput)
+            alerts: {
+                ...alerts,
+                ...formValidation(currentInput)
+            }
         });
     }
 
     onSubmit = (e) => {
         e.preventDefault();
+
+        const { user } = this.state;
+        const alerts = formValidation(user);
+        const { history, register } = this.props.actions;
+
         this.setState({
-            alerts: formValidation(this.state.user)
+            alerts 
         });
-        this.props.actions.register(this.state.user);
+
+        isEmptyAlerts(alerts) && 
+        register({
+            user,
+            redirectTo: (page) => history.push(page)
+        });
     }
 
     renderAlerts(fieldName) {

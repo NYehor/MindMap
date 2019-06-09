@@ -22,7 +22,7 @@ export default class Sidebar extends Component {
     const { showModal } = this.state;
 
     return (
-      <Fragment>
+      <div className='board__sidebar'>
 
         <button className='btn-map-creation' onClick={this.toggeleModal}> 
           <Plus /> 
@@ -64,7 +64,7 @@ export default class Sidebar extends Component {
                             title={<h3>Map Creation</h3>} />                    
                     : null
         }
-    </Fragment>
+    </div>
     )
   }
 }

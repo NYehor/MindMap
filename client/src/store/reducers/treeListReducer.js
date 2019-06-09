@@ -23,8 +23,8 @@ export default function treeListReducer(state = initialState.treeList, action) {
         case types.REMOVE_TREE:
             return state.filter(tree => tree.id !== action.payload.id);
 
-        case types.FIND_TREE:
-            return state.find(tree => tree.id === action.payload.id);
+        // case types.FIND_TREE:
+        //     return state.find(tree => tree.id === action.payload.id);
 
         default:
             return state;

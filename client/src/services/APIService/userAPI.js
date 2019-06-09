@@ -25,8 +25,8 @@ function register(user) {
                 `${apiUrl}/auth/sign-up`, 
                 body, 
                 {headers: header}
-            );
-            // .then(responseHandler);
+            )
+            .then(responseHandler);
 }
 
 function signIn(email, password) {
@@ -38,11 +38,11 @@ function signIn(email, password) {
                 body, 
                 {headers}
             )
-            // .then(responseHandler);
-        .then(user => {
-            localStorage.setItem('user', JSON.stringify(user));
-            return user;
-        });
+        .then(responseHandler);
+        // .then(user => {
+        //     localStorage.setItem('user', JSON.stringify(user));
+        //     return user;
+        // });
 }
 
 function signOut() {

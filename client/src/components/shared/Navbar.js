@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { NavLink } from 'react-router-dom';
 
-export default function Navbar({ auth: {logIn, user} }) {
+const Navbar = ({ logIn }) => {
   return (
     <nav>
       <ul className='navigation'>
       
           {logIn && 
-            <li className='navigation__item'>
-              <NavLink to='/board' activeClassName='navigation__link--active'>Board</NavLink>
-            </li>
+            <Fragment>
+              <li className='navigation__item'>
+                <NavLink to='/board' activeClassName='navigation__link--active'>Board</NavLink>
+              </li>
+              <li className='navigation__item'>
+                <NavLink to='/profile' activeClassName='navigation__link--active'>Profile</NavLink>
+              </li>
+            </Fragment>
           }
 
           {!logIn &&
@@ -28,3 +33,5 @@ export default function Navbar({ auth: {logIn, user} }) {
     </nav>
   )
 }
+
+export default Navbar;

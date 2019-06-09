@@ -4,9 +4,9 @@ import Placeholder from './Placeholder';
 export default class Trash extends Component {
   render() {
     return (
-      <Fragment>
+      <div className='board__content'>
         <Placeholder title='Trash is empty' />
-      </Fragment>
+      </div>
     )
   }
 }

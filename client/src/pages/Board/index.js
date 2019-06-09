@@ -10,7 +10,7 @@ import Trash from './features/Trash';
 
 export default class Board extends Component {
   
-  showSidebar(path) {
+  showSidebarForPages(path) {
     return ['/my-maps', 
             '/sharable', 
             '/trash']
@@ -19,7 +19,7 @@ export default class Board extends Component {
 
   render() {
 
-    const { match, location, history } = this.props;
+    const { match, location } = this.props;
     const path = match.path;
     console.log(path);
     console.log(location)
@@ -28,21 +28,16 @@ export default class Board extends Component {
     return (
       <div className='board-wrapper'>
 
-        {this.showSidebar(location.pathname) && 
-          <div className='sidebar'>
-              <Sidebar path={match.url} />
-          </div>
+        {this.showSidebarForPages(location.pathname) && 
+          <Sidebar path={match.url} />
         }
-
-        <div className='content'>
-          <Switch>
-            <Redirect from={`${path}`} to={`${path}/my-maps`} component={Maps} exact />
-            <Route path={`${path}/my-maps`} component={Maps} exact />
-            <Route path={`${path}/my-maps/:mapId`} component={TreeContainer} />
-            <Route path={`${path}/sharable`} component={Sharable} />
-            <Route path={`${path}/trash`} component={Trash}  />
-          </Switch>
-        </div>
+        <Switch>
+          <Redirect from={`${path}`} to={`${path}/my-maps`} component={Maps} exact />
+          <Route path={`${path}/my-maps`} component={Maps} exact />
+          <Route path={`${path}/my-maps/:mapId`} component={TreeContainer} />
+          <Route path={`${path}/sharable`} component={Sharable} />
+          <Route path={`${path}/trash`} component={Trash}  />
+        </Switch>
 
       </div>
     )

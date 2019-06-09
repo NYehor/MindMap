@@ -29,9 +29,13 @@ header {
             font-family: $sans-serif;
             font-size: 18px;
             font-weight: 700;
-            padding: 10px 15px;
+            padding: 10px 15px;     
+            border-radius: 10px; 
+            border: 2px solid $brand-dark-color;
 
-
+            &:hover {
+                border-color: #fff;
+            }
         }
 
         &__link {
@@ -44,7 +48,6 @@ header {
 
             &:hover {
                 color: $brand-dark-color;   
-                border-radius: 10px; 
                 background: $header-font-color;
             }
        }
@@ -53,5 +56,6 @@ header {
         color: $brand-dark-color !important;   
         border-radius: 10px; 
         background: $header-font-color;
+        border-color: #fff !important;
     }
 }

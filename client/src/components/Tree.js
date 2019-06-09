@@ -71,7 +71,7 @@ export default class Tree extends Component {
                 const wrapper = domNode.closest('.node');
                 wrapper.style.width = `${NODE.width(content)}px`;    
             }
-            this.updateCustomNodeScrollbars();
+            this.updateNodeScrollbars();
         });
 
         document.addEventListener('keydown', (e) => {
@@ -152,6 +152,7 @@ export default class Tree extends Component {
     onPasteHandler(e) {
         e.preventDefault();
         const text = e.clipboardData.getData('text/plain');
+        console.log(text)
         document.execCommand("insertHTML", false, text);      
     }
 
@@ -190,6 +191,7 @@ export default class Tree extends Component {
 
         const stratified = stratify(data);
         const treeData = tree(stratified);
+
         const nodes = treeData.descendants();
         const edges = treeData.links();
 
@@ -401,7 +403,7 @@ export default class Tree extends Component {
         this.updateTree();
     }
 
-    updateCustomNodeScrollbars() {
+    updateNodeScrollbars() {
         if (this.perfectScrollbars.size !== 0) {
             for (const[ , nodeScrollbar] of this.perfectScrollbars) {
                 nodeScrollbar.update();

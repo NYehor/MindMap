@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 import * as authActions from '../../store/actions/auth';
 
 import Solution from './features/Solution';
@@ -20,7 +21,10 @@ class Home extends Component {
                 <div className='form-container' style={{width: '330px'}}>
                     {logIn ? 
                         <LoginForm /> : 
-                        <RegisterForm actions={{register: this.props.register}} /> 
+                        <RegisterForm actions={{
+                                register: this.props.register,
+                                history: this.props.history
+                            }} /> 
                     }
                 </div>
                 <Solution />
@@ -40,5 +44,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps,	mapDispatchToProps)(Home);
+export default withRouter(connect(mapStateToProps,	mapDispatchToProps)(Home));
 

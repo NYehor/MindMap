@@ -3,11 +3,11 @@ import Logo from './Logo';
 import Navbar from './Navbar';
 
 
-export default function Header({ auth }) {
+export default function Header({ logIn }) {
   return (
     <header>
       <Logo />
-      <Navbar auth={auth} />
+      <Navbar logIn={logIn} />
     </header>
   )
 }
